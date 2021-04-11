@@ -1,5 +1,5 @@
 const puppeteer   = require('puppeteer');
-const cheerio           = require('cheerio');
+const cheerio     = require('cheerio');
 const { CronJob } = require('cron');
 
 const productURL = "https://www.flipkart.com/realme-c11-rich-green-32-gb/p/itm831d19fd9cdc4";
