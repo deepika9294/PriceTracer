@@ -3,6 +3,7 @@ import { Link} from "react-router-dom";
 import { Button } from "reactstrap";
 import axios from "axios";
 import { BACKEND } from "../config";
+import './Landing.css';
 
 
 
@@ -34,69 +35,76 @@ export default class SignUp extends Component {
             .post(BACKEND + "/users/adduser", user)
             .then((res) => {
                 alert("User added");
+                this.props.history.push(`/signin`);
             })
             .catch(err => console.log(err));
-        //direct to homepage
+       
+        
     }
         
 
     render() {
         return (
-            <form onSubmit={this.onSubmit} >
-                <h3>Sign Up</h3>
+            <div className="auth-wrapper">
+                <div className="auth-inner">
+                    <form onSubmit={this.onSubmit} >
+                        <h3>Sign Up</h3>
 
-                <div className="form-group">
-                    <label>Name</label>
-                    <input type="text" className="form-control" placeholder="Full Name" name="name" 
-                    value={this.state.name}
-                    onChange={this.changeHandler}
-                    required
-                    />
+                        <div className="form-group">
+                            <label>Name</label>
+                            <input type="text" className="form-control" placeholder="Full Name" name="name" 
+                            value={this.state.name}
+                            onChange={this.changeHandler}
+                            required
+                            />
+                        </div>
+
+                        <div className="form-group">
+                            <label>Mobile Number</label>
+                            <input type="text" className="form-control" placeholder="Mobile Number" name="contactNo"
+                            value={this.state.contactNo}
+                            onChange={this.changeHandler}
+                            required
+
+                            />
+                        </div>
+
+                        <div className="form-group">
+                            <label>Email address</label>
+                            <input type="email" className="form-control" placeholder="Enter email" name="email"
+                            value={this.state.email}
+                            onChange={this.changeHandler}
+                            required
+
+                            />
+                        </div>
+
+                        <div className="form-group">
+                            <label>Password</label>
+                            <input type="text" className="form-control" placeholder="Enter password" name="password"
+                            value={this.state.password}
+                            onChange={this.changeHandler}
+                            required
+
+
+                            />
+                        </div>
+
+                        <button type="submit" value="Submit" className="btn btn-primary btn-block">Sign Up</button>
+                        <p className="forgot-password text-right">
+                            Already registered   
+                            <Link to="/signin">
+                                <Button color="link">
+                                <span>sign in?</span>
+                                </Button>
+                            </Link>
+
+
+                        </p>
+                    </form>
                 </div>
-
-                <div className="form-group">
-                    <label>Mobile Number</label>
-                    <input type="text" className="form-control" placeholder="Mobile Number" name="contactNo"
-                    value={this.state.contactNo}
-                    onChange={this.changeHandler}
-                    required
-
-                    />
-                </div>
-
-                <div className="form-group">
-                    <label>Email address</label>
-                    <input type="email" className="form-control" placeholder="Enter email" name="email"
-                    value={this.state.email}
-                    onChange={this.changeHandler}
-                    required
-
-                    />
-                </div>
-
-                <div className="form-group">
-                    <label>Password</label>
-                    <input type="text" className="form-control" placeholder="Enter password" name="password"
-                    value={this.state.password}
-                    onChange={this.changeHandler}
-                    required
-
-
-                    />
-                </div>
-
-                <button type="submit" value="Submit" className="btn btn-primary btn-block">Sign Up</button>
-                <p className="forgot-password text-right">
-                    Already registered   
-                    <Link to="/signin">
-                        <Button color="link">
-                        <span>sign in?</span>
-                        </Button>
-                    </Link>
-
-
-                </p>
-            </form>
+            </div>
+            
         );
     }
 }

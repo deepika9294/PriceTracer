@@ -3,31 +3,22 @@ const mongoose = require('mongoose');
 const productDataSchema = new mongoose.Schema({
     
     owner : {
-        id : mongoose.Schema.Types.ObjectId,
-        productURL : String,
-        productName : String,
+        type : mongoose.Schema.Types.ObjectId,
         required : true,
     },
-    timestamp : {
-        Day : {
-            type : String,
-            required : true,
-        },
-        Date : {
-            type : String,
-            required : true,
-        },
-        Time : {
-            type : String,
-            required : true,
+    data : [
+        {
+            timestamp : {
+                type : Date,
+                required : true,
+            },
+            price : {
+                type : Number,
+                required : true,
+            }
+
         }
-    },
-    price : {
-        type : Number,
-        required : true,
-    }
-
-
+    ]
 });
 
 const ProductData = mongoose.model('ProductData', productDataSchema);

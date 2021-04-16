@@ -1,6 +1,9 @@
+const validURL = require('valid-url');
+
 const router = require('express').Router();
-// const { useParams } = require('react-router');
 let User = require('../models/user');
+
+
 
 router.route('/').get((req, res) => {
     User.find()
@@ -9,25 +12,25 @@ router.route('/').get((req, res) => {
 });
 
 router.route('/adduser').post((req,res) => {
-    const name = req.body.name;
-    const email = req.body.email;
-    const password = req.body.password; //encrypt
-    const contactNo = req.body.contactNo;
-
-    const newUser = new User({name, email, password, contactNo});
+   
+    const newUser = new User();
+    newUser.password = newUser.generateHash(req.body.password);
+    newUser.name = req.body.name;
+    newUser.email = req.body.email;
+    newUser.contactNo = req.body.contactNo;
     newUser.save()
         .then(() => res.json("User Added"))
         .catch(err => res.status(400).json('Error: ' + err));
-})
+});
 
-router.route('/login').post((req,res) => {
-    User.findOne({email:req.body.email})
+router.route('/login').post(async (req,res) => {
+    await User.findOne({email:req.body.email})
     .then(user => {
-        console.log("USer", user)
+        console.log("User", user)
         if(!user)
             res.sendStatus(204);
         else {
-            if(user.password == req.body.password) {
+            if(user.comparePassword(req.body.password)) {
                 res.sendStatus(200)
             }
             else {
@@ -35,6 +38,10 @@ router.route('/login').post((req,res) => {
             }
         }
     })
-})
+});
+
+
+
+
 
 module.exports = router;
