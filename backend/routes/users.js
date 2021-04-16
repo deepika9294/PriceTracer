@@ -1,5 +1,9 @@
+const validURL = require('valid-url');
+
 const router = require('express').Router();
 let User = require('../models/user');
+
+
 
 router.route('/').get((req, res) => {
     User.find()
@@ -10,17 +14,17 @@ router.route('/').get((req, res) => {
 router.route('/adduser').post((req,res) => {
    
     const newUser = new User();
-    user.password = user.generateHash(req.body.password);
-    user.name = req.body.name;
-    user.email = req.body.email;
-    user.contactNo = req.body.contactNo;
+    newUser.password = newUser.generateHash(req.body.password);
+    newUser.name = req.body.name;
+    newUser.email = req.body.email;
+    newUser.contactNo = req.body.contactNo;
     newUser.save()
         .then(() => res.json("User Added"))
         .catch(err => res.status(400).json('Error: ' + err));
-})
+});
 
-router.route('/login').post((req,res) => {
-    User.findOne({email:req.body.email})
+router.route('/login').post(async (req,res) => {
+    await User.findOne({email:req.body.email})
     .then(user => {
         console.log("User", user)
         if(!user)
@@ -34,6 +38,10 @@ router.route('/login').post((req,res) => {
             }
         }
     })
-})
+});
+
+
+
+
 
 module.exports = router;

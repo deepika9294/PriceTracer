@@ -3,10 +3,7 @@ const mongoose = require('mongoose');
 const productSchema = new mongoose.Schema({
     
     owner : {
-
-        id : mongoose.Schema.Types.ObjectId,
-        Email : String,
-        Name : String,
+        type : mongoose.Schema.Types.ObjectId,
         required : true,
     },
     productName : {
@@ -35,18 +32,13 @@ const productSchema = new mongoose.Schema({
         type : Boolean,
         default : false,
     },
-    productData : [
-        {
-            type : mongoose.Schema.Types.ObjectId,
-            ref : "ProductData",
-        }
-    ],
-    recProducts : [
-        {
-            type : mongoose.Schema.Types.ObjectId,
-            ref : "RecProduct",
-        }
-    ]
+    productData : {
+        type : mongoose.Schema.Types.ObjectId,
+    },
+    recProducts :{
+        type : mongoose.Schema.Types.ObjectId,
+    }
+        
 
 });
 
