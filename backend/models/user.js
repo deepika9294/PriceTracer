@@ -27,21 +27,16 @@ const userSchema = new mongoose.Schema({
         minlength : 10,
         required : true,
     },
-    // mode : {
-    //     type : String,
-    //     default : "email",
-    //     required : true,
-    // },
-    // Cart : [
-    //     {
-    //         type : mongoose.Schema.Types.ObjectId,
-    //         ref : "Product",
-    //     }
-    // ],
-    // modeVerified: {
-    //     type : Boolean,
-    //     default : false,
-    // }
+    mode : {
+        type : String,
+        default : "email",
+        required : true,
+    },
+    Cart : [],
+    modeVerified: {
+        type : Boolean,
+        default : false,
+    }
 
 });
 
