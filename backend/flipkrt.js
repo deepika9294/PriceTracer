@@ -80,6 +80,9 @@ async function price_tracer(){
     const productName = await getProductName($_parsed_html);
     console.log(productName);
 
+    const image = $_parsed_html('._396cs4._2amPTt._3qGmMb._3exPp9').attr('src');
+    console.log("image url : " + image);
+
     //invoke price tracker
     await price_tracer();
 
