@@ -1,46 +1,46 @@
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
-    Name : {
+    name : {
 
         type : String,
         required : true,
     },
-    Email : {
+    email : {
 
         type : String,
         trim : true,
         lowercase : true,
         unique : true,
-        required :  "Email address is required",
+        required : true,
     },
-    Password : {
+    password : {
 
         type : String,
         required : true,
     },
-    ContactNo : {
+    contactNo : {
 
         type : String,
         maxlength : 10,
         minlength : 10,
         required : true,
     },
-    Mode : {
-        type : String,
-        default : "email",
-        required : true,
-    },
-    Cart : [
-        {
-            type : mongoose.Schema.Types.ObjectId,
-            ref : "Product",
-        }
-    ],
-    modeVerified: {
-        type : Boolean,
-        default : false,
-    }
+    // mode : {
+    //     type : String,
+    //     default : "email",
+    //     required : true,
+    // },
+    // Cart : [
+    //     {
+    //         type : mongoose.Schema.Types.ObjectId,
+    //         ref : "Product",
+    //     }
+    // ],
+    // modeVerified: {
+    //     type : Boolean,
+    //     default : false,
+    // }
 
 });
 
