@@ -1,16 +1,18 @@
 .card-horizontal {
     display: flex;
     flex: 1 1 auto;
+    
 }
 
 .card{
     height : auto;
-    margin-top: 20px;
+    margin-top: 50px;
 }
 
 img{
     height: 100%;
     width: fit-content;
+    
 }
 button{
     margin-left: 10px;

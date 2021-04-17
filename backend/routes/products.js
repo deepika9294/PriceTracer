@@ -7,6 +7,7 @@ const Product = require('../models/product');
 const fetchProductDetails = require('../utils/fetchProductDetails');
 const priceTracking = require('../utils/priceTracking');
 const fetchWebsite = require('../utils/fetchWebsite');
+const ProductData = require('../models/productData');
 
 
 router.route('/addproduct').post( async(req, res) => {
@@ -45,11 +46,12 @@ router.route('/addproduct').post( async(req, res) => {
             newProduct.productWebsite = website;
             newProduct.thresholdPrice = thresholdPrice;
             newProduct.owner =  user._id;
+            newProduct.productPrice = Number(productPrice);
     
             newProduct.save()
                 .then(() => {
                     res.json({success : true , msg: "product added successfully"});
-                    console.log("added new product in product database");
+                    // console.log("added new product in product database");
                     user.Cart.push(newProduct._id);
                     user.save()
                         .then(()=>{
@@ -63,7 +65,6 @@ router.route('/addproduct').post( async(req, res) => {
                 })
                 .catch(err => {
                     res.status(400).json('Error: ' + err);
-                    console.log("couldnot save product in produt database");
                 });     
         }
     });
@@ -74,10 +75,13 @@ router.route('/addproduct').post( async(req, res) => {
 router.route('/getproducts').post( async(req, res)=>{
     const email = req.body.email;
     
-    User.findOne({email}).then(user =>{
+    User.findOne({email : email}).then(user =>{
+
+
         if(user){
             const products = user.Cart;
-            
+            console.log(user.Cart);
+
             if(products.length == 0){
                 return res.json({success: true, value: []});
             }
@@ -94,6 +98,8 @@ router.route('/getproducts').post( async(req, res)=>{
                             productURL : product.productURL,
                             productWebsite : product.productWebsite,
                             thresholdPrice : product.thresholdPrice,
+                            productPrice : product.productPrice,
+                            product_id : product._id,
                         }
 
                         list.push(data);
@@ -103,11 +109,7 @@ router.route('/getproducts').post( async(req, res)=>{
                         }
                     }
                 })
-                
-            })
-
-           
-                
+            })       
         }
         else{
             return res.json({success: false, value : "invalid user"});
@@ -115,6 +117,50 @@ router.route('/getproducts').post( async(req, res)=>{
 
     })
 });
+
+router.route('/deleteproduct').post(async (req, res) =>{
+    const pid = req.body.product_id;
+    const email = req.body.email;
+
+    await User.findOne({email}).then(user =>{
+        if(user){
+            if(user.Cart.includes(pid)){
+                Product.findOneAndDelete({ _id : pid}).then(product =>{
+                    if(product){
+                        const product_data_id = product.productData;
+                        ProductData.findOneAndDelete({_id : product_data_id}).then(data =>{
+                            if(data){
+                                console.log("deleted product data");
+                            }
+                            else{
+                                return res.json({success : false, msg : "unsuccessful delete"});
+                            }
+                        })
+                    }
+                    else{
+                        return res.json({success : false, msg : "No such product"});
+                    }
+                })
+
+                
+                user.Cart = user.Cart.filter(product_id => product_id != pid);
+                
+                user.save()
+                    .then(()=> console.log("user cart updated"))
+                    .catch(err => console.log(err));
+                    
+                return res.json({success : true, msg: "successful delete"})
+
+            }
+            else{
+                return res.json({success : false, msg : "No such product"});
+            }  
+        }
+        else{
+            return res.json({success: false, msg: 'Not authenticated delete product'});
+        }
+    })
+})
 
 
 module.exports = router;
