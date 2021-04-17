@@ -15,10 +15,12 @@ class ProductCard extends Component {
 
     onDelete = (e)=>{
         const user = {
-            email : "shahakanksha286@gmail.com",
-            name : "akanksha",
+            email : localStorage.getItem('email'),
+            name : localStorage.getItem('name'),
             product_id : this.props.product.product_id,
         }
+
+        console.log("from delete", user);
 
         (async()=>{
             const res_data = await axios
