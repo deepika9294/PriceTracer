@@ -13,7 +13,6 @@ import axios from "axios";
 import Check from "./Component/Check";
 import Header from "./Component/Header";
 import Land from './Component/Land';
-
 function App() {
 
   const [ userData, setUserData] = useState({
@@ -52,17 +51,16 @@ function App() {
         <Route exact path='/' component={Land} />
         <Route exact path="/signin" component={Login} />
         <Route exact path="/signup" component={SignUp} />
-        <Route exact path="/check" component={Check} />
-
-        <Route path="/home" component={Home} />
-        <Route exact path="/products/addproduct" component={AddProduct}/>
+         <Route exact path="/check" component={Check} />
+         <Route path="/home" component={Home} />
+         <Route exact path="/products/addproduct" component={AddProduct}/>
       </Switch>
 
     </div>
     </UserContext.Provider>
     
     </Router>
-  );
+      );
 }
 
 export default App;

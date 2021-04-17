@@ -30,8 +30,6 @@ function Login () {
             localStorage.setItem("name", loginResponse.data.user.name);
             localStorage.setItem("email", loginResponse.data.user.email);
             localStorage.setItem("id", loginResponse.data.user.id);
-            console.log("s" + setUserData);
-
             history.push("/home");
         } catch(err) {
             err.response.data.msg && setError(err.response.data.msg)
