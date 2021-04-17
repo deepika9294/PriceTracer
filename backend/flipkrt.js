@@ -1,10 +1,12 @@
 const puppeteer   = require('puppeteer');
 const cheerio     = require('cheerio');
-const { CronJob } = require('cron');
+const {CronJob}        = require('cron');
 
 const productURL = "https://www.flipkart.com/realme-c11-rich-green-32-gb/p/itm831d19fd9cdc4";
 
 const threshold = 7800;
+
+const array = []
 
 async function browserConfig(){
     const browser = await puppeteer.launch({ headless: true });
@@ -12,6 +14,8 @@ async function browserConfig(){
 
     await page.setViewport({ width: 1920, height: 926 });
     await page.goto(productURL);
+
+    await page.setDefaultNavigationTimeout(0);
 
     return page;
 }
@@ -30,9 +34,9 @@ function priceComparator(currentPrice){
 
 async function extractPrice(page){
 
-    await page.reload();
+    page.reload()
     
-    const html = await page.evaluate(()=>{
+    const html = page.evaluate(()=>{
         return document.body.innerHTML;
     });
 
@@ -46,7 +50,9 @@ async function extractPrice(page){
     
     //invoke threashold comparator
     if(priceComparator(parsedPrice)){
-        console.log("BUY !!");
+        console.log("BUY!!");
+        array.pop().stop();
+        console.log("stopped");
     }
     else{
         console.log("WAIT !!");
@@ -55,12 +61,14 @@ async function extractPrice(page){
 
 async function price_tracer(){
     const page = await browserConfig();
-
     let job= new CronJob('*/30 * * * * *', ()=>{
-        extractPrice(page);
+        extractPrice(page)
     }, null, true,null, null, true);
 
-    job.start(); 
+    job.start();
+
+    
+  
 }
 
 ( async () =>{
@@ -80,11 +88,14 @@ async function price_tracer(){
     const productName = await getProductName($_parsed_html);
     console.log(productName);
 
-    const image = $_parsed_html('._396cs4._2amPTt._3qGmMb._3exPp9').attr('src');
+    const image = $_parsed_html('img').attr('src');
+    
     console.log("image url : " + image);
 
     //invoke price tracker
     await price_tracer();
+
+    console.log("ended!");
 
 })();
 

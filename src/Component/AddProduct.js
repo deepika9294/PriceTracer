@@ -35,7 +35,7 @@ class AddProduct extends Component{
         const new_product = {
             productURL : this.state.productURL,
             thresholdPrice : this.state.thresholdPrice,
-            email : 'akanksha@gmail.com',
+            email : 'shahakanksha286@gmail.com',
             name : 'shah',
         }
 
@@ -44,13 +44,8 @@ class AddProduct extends Component{
 		.then(res => res.data)
         .catch(err => console.log(err));
 
-        console.log(res_data);
         if(res_data.success === true){
-            this.setState({
-                msg : res_data.msg,
-                variant : "success",
-            })
-
+        
             this.props.history.push(`/home`);
 
         }
@@ -75,16 +70,16 @@ class AddProduct extends Component{
         return(
             <div className="container">
                 <CartNavbar/>
-                <div style={{width: '100%'}}>
+                <div style={{width: '50%', marginTop : '100px'}}>
                       
                     <form style={{marginTop: '50px'}} onSubmit={this.onSubmit}>
-                        { this.state.msg.toString()? <Alert style={{width : '50%'}} variant={this.state.variant}o onClose={this.onClose} dismissible>
+                        { this.state.msg? <Alert style={{width : '50%'}} variant={this.state.variant}o onClose={this.onClose} dismissible>
                                                 <p>{this.state.msg.toUpperCase()}</p>
                                             </Alert> : "" }
-                        <h2>Add Product</h2><br/>
+                        <h2 style={{color : 'red'}}><u>Add Product</u></h2><br/>
                         <div className={"form-group"}>
-                            <label style={{fontSize : '20px'}} htmlFor="producturl">Product URL</label><br />
-                            <input style={{width : '50%', height : '40px'}}
+                            <label style={{fontSize : '20px', color: 'white'}} htmlFor="producturl">Product URL</label><br />
+                            <input style={{ width: '90%', height : '40px'}}
                                 id="producturl" 
                                 type="text"
                                 name="productURL" 
@@ -96,8 +91,8 @@ class AddProduct extends Component{
                             <br/>
                         </div>
                         <div  className={"form-group"}>
-                            <label style={{fontSize : '20px'}}  htmlFor="price">Price</label><br />
-                            <input style={{width : '50%' , height : '40px'}} 
+                            <label style={{fontSize: '20px', color: 'white'}}  htmlFor="price">Price</label><br />
+                            <input style={{ width: '90%', height : '40px'}} 
                                 id="price" 
                                 type="number" 
                                 name="thresholdPrice"
@@ -107,7 +102,7 @@ class AddProduct extends Component{
                                 required
                             />
                         </div><br/>
-                        <button type="submit" style={{width : '50%'}}className={'btn btn-primary btn-lg'}>Add Product</button>
+                        <button type="submit" style={{width: '90%', marginLeft:0}} className={'btn btn-primary btn-block'}>Add Product</button>
                     </form>
                
                 </div>

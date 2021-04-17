@@ -28,6 +28,10 @@ const productSchema = new mongoose.Schema({
         type : Number,
         required : true,
     },
+    productPrice :{
+        type : Number,
+        required : true,
+    },
     isThresholdReached : {
         type : Boolean,
         default : false,

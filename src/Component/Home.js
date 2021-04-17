@@ -9,49 +9,52 @@ class Home extends Component{
         super(props)
     
         this.state = {
-            products : [{}],
+            products : [],
         }
     }
     
     componentDidMount(){
-        var res_data_list;
-        
         (async () =>{
-            console.log("in useffect");
             // this should be fetched from localstorage after the jwt token setup
             const user = {
-                email : 'akanksha@gmail.com',
+                email : 'shahakanksha286@gmail.com',
                 name : 'akanksha',
             };
 
-            res_data_list = await axios
+            await axios
             .post( BACKEND + '/products/getproducts', user)
-            .then(res => res.data.value)
+            .then(res => {
+                const product_list = (res.data.value).map( (product) =>{
+                    return (<ProductCard product={product}></ProductCard>)
+                })      
+                this.setState({
+                    products : product_list
+                })
+            })
             .catch(err => console.log("failed to fetch products"));
             
-            console.log(res_data_list);
-            
-            console.log("akanksha");
-            console.log(this.state.products);
-
-            this.setState({
-                products : res_data_list,
-            })
+           
             
         })();  
     }
 
     render(){
-        return (
-            <div className="container">
+
+        if(this.state.products && this.state.length !== 0){
+            return (
+                <div className="container">
                     <CartNavbar/>
-                    <div>
-                        {this.state.products.map(product => {
-                            return <ProductCard product={product}/>
-                        })}
-                    </div>
-            </div>
-        )
+                    {this.state.products} 
+                </div>
+            )
+        }
+        else{
+            return (
+                <div className="container">
+                    <CartNavbar/>
+                </div>
+            )
+        }
     }
    
 }
