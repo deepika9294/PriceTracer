@@ -3,16 +3,14 @@ import { useHistory } from 'react-router-dom';
 import UserContext from "../context/userContext";
 
 function AuthOptions () {
-    const { userData, setUserData } = useContext(UserContext);
+    const { isUserValid, setIsUserValid } = useContext(UserContext);
+
     const history = useHistory();
 
     const register = () => history.push("/signup");
     const login = () => history.push("/signin");
     const logout = () => {
-        setUserData({
-            token: undefined,
-            user: undefined
-        })
+        setIsUserValid(false);
         localStorage.removeItem("auth-token");
         localStorage.removeItem("name");
         localStorage.removeItem("email");
@@ -23,7 +21,7 @@ function AuthOptions () {
 
     return (
         <nav className="auth-options">
-            {userData.user ? (
+            {isUserValid? (
                 <button className="btn btn-dark mr-2" onClick={logout}>Logout</button>
             ) : (
                 <>
