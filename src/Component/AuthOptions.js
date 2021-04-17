@@ -9,6 +9,8 @@ function AuthOptions () {
 
     const register = () => history.push("/signup");
     const login = () => history.push("/signin");
+    const home = () => history.push("/home");
+
     const logout = () => {
         setIsUserValid(false);
         localStorage.removeItem("auth-token");
@@ -22,7 +24,11 @@ function AuthOptions () {
     return (
         <nav className="auth-options">
             {isUserValid? (
+                <>
                 <button className="btn btn-dark mr-2" onClick={logout}>Logout</button>
+                <button className="btn btn-dark mr-2" onClick={home}>Home</button>
+                </>
+
             ) : (
                 <>
                 <button className="btn btn-dark mr-2" onClick={register}>Sign Up</button>
