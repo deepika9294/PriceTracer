@@ -15,11 +15,13 @@ class Home extends Component{
     
     componentDidMount(){
         (async () =>{
-            // this should be fetched from localstorage after the jwt token setup
+            
             const user = {
-                email : 'shahakanksha286@gmail.com',
-                name : 'akanksha',
+                email : localStorage.getItem('email'),
+                name : localStorage.getItem('name'),
             };
+
+            console.log(user);
 
             await axios
             .post( BACKEND + '/products/getproducts', user)
