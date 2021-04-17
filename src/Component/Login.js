@@ -32,7 +32,7 @@ function Login () {
             localStorage.setItem("id", loginResponse.data.user.id);
             console.log("s" + setUserData);
 
-            history.push("/check");
+            history.push("/home");
         } catch(err) {
             err.response.data.msg && setError(err.response.data.msg)
         }
