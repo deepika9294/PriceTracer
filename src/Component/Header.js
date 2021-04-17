@@ -6,10 +6,10 @@ class Header extends Component {
    
     render() { 
         return ( 
-            <header className="header">
-                <Link to="/"><h1 className="title">Price Tracer</h1></Link>
+            <div>
+                <Link to="/"><h1 style={{color: "black"}}>Price Tracer</h1></Link>
                 <AuthOptions />
-            </header>
+            </div>
          );
     }
 }
