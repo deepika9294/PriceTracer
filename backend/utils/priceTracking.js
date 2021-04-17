@@ -8,6 +8,8 @@ const browserConfig = async(productURL) =>{
     const browser = await puppeteer.launch({ headless: true });
     const page = await browser.newPage();
 
+    await page.setDefaultNavigationTimeout(0);
+
     await page.setViewport({ width: 1920, height: 926 });
     await page.goto(productURL);
 
@@ -21,7 +23,7 @@ function priceComparator(currentPrice, threshold){
 }
 
 
-const extractPrice = async (page, thresholdPrice, productName, pid) => {
+const extractPrice = async (page, thresholdPrice, productName, pid, jobs_array) => {
 
     await page.reload();
     
@@ -49,55 +51,71 @@ const extractPrice = async (page, thresholdPrice, productName, pid) => {
             price : parsedPrice,
         }
 
-        console.log("product pid :" + pid);
+        //console.log("product pid :" + pid);
 
-        // find the productData with owner pid else create a new data
-        await ProductData.findOne({owner: pid}).then( productdata =>{
-            if(productdata){
 
-                productdata.data.push(data);
+        await Product.findOne({_id : pid}).then( product =>{
+            if(product){
+                if(product.productData){
+
+                    ProductData.findOne({owner : pid}).then( productdata =>{
+                        
+                        productdata.data.push(data);
                
-                productdata.save().then(()=>{
-                    console.log("scrapped data added to the data array");
-                }).catch(err =>{
-                    console.log("error in pushin new data");
-                });
-            }
-            else {
-
-                // add the id of the data array to product also
-                const newProductData = new ProductData();
-                newProductData.owner = pid;
-                newProductData.data.push(data);
-                newProductData.save()
-                    .then(()=> console.log("new product data"))
-                    .catch(err => console.log(err));
-                
-                Product.findOne({_id : pid}).then((product) =>{
-                    if(product){
-                        product.productData = newProductData._id;
-                        product.save().then(()=>{
-                            console.log("updated product with data array id");
-                        })
-                        .catch(err =>{
+                        productdata.save().then(()=>{
+                            console.log("data added");
+                        }).catch(err =>{
                             console.log(err);
-                        })
-                    }
-                })
+                        });
+
+                    })
+                   
+                }
+                else{
+                    const newProductData = new ProductData();
+                    newProductData.owner = pid;
+                    newProductData.data.push(data);
+                    newProductData.save()
+                    .then(()=> console.log("data added"))
+                    .catch(err => console.log(err));
+                    
+                    product.productData = newProductData._id;
+
+                    product.save().then(()=>{
+                        // console.log("updated product with data array id");
+                    })
+                    .catch(err =>{
+                        console.log(err);
+                    })
+                }
+                console.log("WAIT !!");
+            }
+            else{
+                //stop or destroy the scraping process for this product but how ?????
+                jobs_array.pop().job.stop();
+                console.log("job stopped!");
             }
         });
-        console.log("WAIT !!");
+
+        
     }
 }
 
 
 const price_tracer = async (url, thresholdPrice, productName, pid) => {
     const page = await browserConfig(url);
-
+    const jobs_array = [];
     let job= new CronJob('*/30 * * * * *', ()=>{
-        extractPrice(page, thresholdPrice, productName, pid);
+        extractPrice(page, thresholdPrice, productName, pid, jobs_array)
+                
     }, null, true,null, null, true);
 
+    const  job_wip = {
+        pid : pid,
+        job : job,
+    }
+
+    jobs_array.push(job_wip);
     job.start(); 
 }
 
