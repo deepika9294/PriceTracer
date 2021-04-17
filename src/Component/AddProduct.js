@@ -35,8 +35,8 @@ class AddProduct extends Component{
         const new_product = {
             productURL : this.state.productURL,
             thresholdPrice : this.state.thresholdPrice,
-            email : 'shahakanksha286@gmail.com',
-            name : 'shah',
+            email : localStorage.getItem('email'),
+            name : localStorage.getItem('name'),
         }
 
         const res_data = await axios

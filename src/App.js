@@ -53,7 +53,8 @@ function App() {
         <Route exact path='/' component={Land} />
         <Route exact path="/signin" component={Login} />
         <Route exact path="/signup" component={SignUp} />
-         <Route exact path="/check" component={Check} />
+         {/* <Route exact path="/check" component={Check} /> */}
+         <ProtectedRoute exact path= '/check' user= {isUserValid} component= {Check} />
          <ProtectedRoute exact path='/home' user={isUserValid} component={Home} />
          <ProtectedRoute exact path="/products/addproduct" user={isUserValid} component={AddProduct} />
 

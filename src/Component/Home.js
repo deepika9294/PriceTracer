@@ -26,8 +26,8 @@ class Home extends Component{
             await axios
             .post( BACKEND + '/products/getproducts', user)
             .then(res => {
-                const product_list = (res.data.value).map( (product) =>{
-                    return (<ProductCard product={product}></ProductCard>)
+                const product_list = (res.data.value).map( (product , index) =>{
+                    return (<ProductCard product={product} key={index}></ProductCard>)
                 })      
                 this.setState({
                     products : product_list

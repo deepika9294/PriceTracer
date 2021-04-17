@@ -54,7 +54,7 @@ class ProductCard extends Component {
     render(){
         return (
         
-            <div class="container-fluid">
+            <div className="container-fluid">
 
                 { this.state.msg ? <Alert variant="danger" onClose={this.onClose} dismissible>
                                     <p>{this.state.msg.toUpperCase()}</p>
