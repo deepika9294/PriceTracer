@@ -14,7 +14,7 @@ function Login () {
     const [password, setPassword] = useState();
     const [error, setError] = useState();
 
-    const { setUserData } = useContext(UserContext);
+    const { setIsUserValid } = useContext(UserContext);
     const history = useHistory();
 
     const submit = async (e) => {
@@ -22,10 +22,7 @@ function Login () {
         try{
             const loginUser = {email, password};
             const loginResponse = await axios.post(BACKEND + "/users/login", loginUser);
-            setUserData({
-                token: loginResponse.data.token,
-                user: loginResponse.data.user
-            });
+            setIsUserValid(true);
             localStorage.setItem("auth-token", loginResponse.data.token);
             localStorage.setItem("name", loginResponse.data.user.name);
             localStorage.setItem("email", loginResponse.data.user.email);
