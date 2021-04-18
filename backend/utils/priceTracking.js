@@ -128,7 +128,8 @@ const extractPrice = async (page, thresholdPrice, productName, pid, jobs_array) 
 const price_tracer = async (url, thresholdPrice, productName, pid) => {
     const page = await browserConfig(url);
     const jobs_array = [];
-    let job= new CronJob('*/30 * * * * *', ()=>{
+    
+    let job= new CronJob('*/30 * * * * *', () => {
         extractPrice(page, thresholdPrice, productName, pid, jobs_array)
                 
     }, null, true,null, null, true);
@@ -139,6 +140,7 @@ const price_tracer = async (url, thresholdPrice, productName, pid) => {
     }
 
     jobs_array.push(job_wip);
+    console.log(jobs_array);
     job.start(); 
 }
 
