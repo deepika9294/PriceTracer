@@ -50,6 +50,9 @@ const extractPrice = async (page, thresholdPrice, productName, pid, jobs_array) 
         //send email notification
         Product.findOne({_id: pid}).then(product =>{
             if(product){
+                product.isThresholdReached = true;
+                product.save();
+                
                 User.findOne({_id : product.owner}).then(user =>{
                     if(user){
                        

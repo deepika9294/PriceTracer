@@ -100,6 +100,7 @@ router.route('/getproducts').post( async(req, res)=>{
                             thresholdPrice : product.thresholdPrice,
                             productPrice : product.productPrice,
                             product_id : product._id,
+                            isThresholdReached : product.isThresholdReached,
                         }
 
                         list.push(data);
