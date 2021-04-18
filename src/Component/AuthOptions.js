@@ -10,7 +10,8 @@ function AuthOptions () {
     const register = () => history.push("/signup");
     const login = () => history.push("/signin");
     const home = () => history.push("/home");
-
+    const about = () => history.push("/about");
+    
     const logout = () => {
         setIsUserValid(false);
         localStorage.removeItem("auth-token");
@@ -27,6 +28,7 @@ function AuthOptions () {
                 <>
                 <button className="btn btn-dark mr-2" onClick={logout}>Logout</button>
                 <button className="btn btn-dark mr-2" onClick={home}>Home</button>
+                <buttom className="btn btn-dark mr-2" onClick={about}>About</buttom>
                 </>
 
             ) : (
