@@ -3,6 +3,8 @@ const cheerio     = require('cheerio');
 const { CronJob } = require('cron');
 const ProductData = require('../models/productData');
 const Product     = require('../models/product');
+const User        = require('../models/user');
+const sendMail    = require('./sendMail');
 
 const browserConfig = async(productURL) =>{
     const browser = await puppeteer.launch({ headless: true });
@@ -39,11 +41,34 @@ const extractPrice = async (page, thresholdPrice, productName, pid, jobs_array) 
     //clean up price
     const parsedPrice = Number(price.replace(/[^0-9.-]+/g, "" ));
     
-    //invoke threashold comparator
+    //invoke threshold comparator
     if(priceComparator(parsedPrice, thresholdPrice)){
 
-        //send email notification
         console.log("BUY !!");
+        jobs_array.pop().job.stop();
+
+        //send email notification
+        Product.findOne({_id: pid}).then(product =>{
+            if(product){
+                User.findOne({_id : product.owner}).then(user =>{
+                    if(user){
+                       
+                        const data = {
+                            owner_name : user.name,
+                            name : product.productName,
+                            productURL : product.productURL,
+                            currentPrice : parsedPrice,
+                            productPrice : product.productPrice,
+                            thresholdPrice : product.thresholdPrice,
+
+                        }
+                        console.log(data);
+                        sendMail(data, user.email);
+                    }
+                })
+            }
+        })
+        
     }
     else{
         const data = {
@@ -86,7 +111,7 @@ const extractPrice = async (page, thresholdPrice, productName, pid, jobs_array) 
                 console.log("WAIT !!");
             }
             else{
-                //stop or destroy the scraping process for this product but how ?????
+
                 jobs_array.pop().job.stop();
                 console.log("job stopped!");
             }
