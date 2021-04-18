@@ -16,11 +16,8 @@ import Land from './Component/Land';
 import ProtectedRoute from './Component/ProtectedRoute';
 function App() {
 
-  // const [ userData, setUserData] = useState({
-  //   token: undefined,
-  //   user: undefined
-  // });
-  const [isUserValid, setIsUserValid] = useState(false);
+  
+  const [isUserValid, setIsUserValid] = useState(true);
   useEffect(() => {
     const checkLoggedIn = async () => {
       let token = localStorage.getItem("auth-token");
@@ -31,15 +28,14 @@ function App() {
       }
       const tokenResponse = await axios.post(BACKEND + '/users/tokenIsValid', null, {headers: {"x-auth-token": token}});
       if (tokenResponse.data) {
-        // const userRes = await axios.get(BACKEND + "/users/", {
-        //   headers: { "x-auth-token": token },
-        // });
-        // setUserData({
-        //   token,
-        //   user: userRes.data,
-        // });
+       
         setIsUserValid(true);
       }
+      else {
+        setIsUserValid(false);
+
+      }
+
     }
     checkLoggedIn();
   }, []);
@@ -54,6 +50,7 @@ function App() {
         <Route exact path="/signin" component={Login} />
         <Route exact path="/signup" component={SignUp} />
          {/* <Route exact path="/check" component={Check} /> */}
+         
          <ProtectedRoute exact path= '/check' user= {isUserValid} component= {Check} />
          <ProtectedRoute exact path='/home' user={isUserValid} component={Home} />
          <ProtectedRoute exact path="/products/addproduct" user={isUserValid} component={AddProduct} />
