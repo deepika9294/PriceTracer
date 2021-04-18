@@ -2,11 +2,10 @@ const puppeteer   = require('puppeteer');
 const cheerio     = require('cheerio');
 const {CronJob}        = require('cron');
 
-const productURL = "https://www.flipkart.com/realme-c11-rich-green-32-gb/p/itm831d19fd9cdc4";
+const productURL = "https://www.myntra.com/tshirts/chalk-by-pantaloons/chalk-by-pantaloons-girls-navy-blue-striped-polo-collar-t-shirt/13750840/buy";
 
-const threshold = 7800;
+const threshold = 100;
 
-const array = []
 
 async function browserConfig(){
     const browser = await puppeteer.launch({ headless: true });
@@ -15,13 +14,11 @@ async function browserConfig(){
     await page.setViewport({ width: 1920, height: 926 });
     await page.goto(productURL);
 
-    await page.setDefaultNavigationTimeout(0);
-
     return page;
 }
 
 async function getProductName($_parsed_html){
-    const name =  $_parsed_html('.yhB1nd').find('.B_NuCI').text();
+    const name =  $_parsed_html('.pdp-name').innerHTML();
     return name;
 }
 
@@ -43,16 +40,15 @@ async function extractPrice(page){
     const $_parsed_html = cheerio.load(html);
 
     //fetch price
-    const price =  $_parsed_html('._30jeq3._16Jk6d').text();
-
+    const price =  $_parsed_html('.pdp-price').text();
+    console.log(price);
+    
     //clean up price
     const parsedPrice = Number(price.replace(/[^0-9.-]+/g, "" ));
-    
+ 
     //invoke threashold comparator
     if(priceComparator(parsedPrice)){
-        console.log("BUY!!");
-        array.pop().stop();
-        console.log("stopped");
+        console.log("BUY!!")
     }
     else{
         console.log("WAIT !!");
@@ -88,9 +84,9 @@ async function price_tracer(){
     const productName = await getProductName($_parsed_html);
     console.log(productName);
 
-    const image = $_parsed_html('img').attr('src');
+    // const image = $_parsed_html('._3v_O').attr('src');
     
-    console.log("image url : " + image);
+    // console.log("image url : " + image);
 
     //invoke price tracker
     await price_tracer();
