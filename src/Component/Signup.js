@@ -22,7 +22,7 @@ function Signup () {
         try{
             const newUser = {email, password, name, contactNo};
             await axios.post(BACKEND + "/users/adduser", newUser);
-            alert("user added");
+            alert("Please Check your mail for verification");
             history.push("/");
         } catch(err) {
             err.response.data.msg && setError(err.response.data.msg)
