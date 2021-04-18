@@ -18,35 +18,32 @@ const loadHTML = async(url) =>{
 
 const fetchProductDetails  = async(url) =>{
 
-    try{
-        const $_parsed_html = await loadHTML(url);
+    const $_parsed_html = await loadHTML(url);
     
-        //fetch product name
-        const productName =  $_parsed_html('.yhB1nd').find('.B_NuCI').text();
-    
-        //fetch product image url
-        var productimgURL =  $_parsed_html('._396cs4._2amPTt._3qGmMb._3exPp9').attr('src');
-        
-        if(!productimgURL){
-            
-            productimgURL = $_parsed_html('._2r_T1I._396QI4').attr('src');
-        }
+    //fetch product name
+    const productName =  $_parsed_html('.yhB1nd').find('.B_NuCI').text();
 
-        //fetch price
-        const price =  $_parsed_html('._30jeq3._16Jk6d').text();
+    //fetch product image url
+    var productimgURL =  $_parsed_html('._396cs4._2amPTt._3qGmMb._3exPp9').attr('src');
     
-        //clean up price
-        const productPrice = Number(price.replace(/[^0-9.-]+/g, "" ));
+    if(!productimgURL){
         
-        return {
-            productName,
-            productPrice,
-            productimgURL,
-        }
-    
-    } catch(err){
-        throw "Error occured :" + err;
+        productimgURL = $_parsed_html('._2r_T1I._396QI4').attr('src');
     }
+
+    //fetch price
+    const price =  $_parsed_html('._30jeq3._16Jk6d').text();
+
+    //clean up price
+    const productPrice = Number(price.replace(/[^0-9.-]+/g, "" ));
+    
+    return {
+        productName,
+        productPrice,
+        productimgURL,
+    }
+    
+
 };
 
 module.exports = fetchProductDetails;

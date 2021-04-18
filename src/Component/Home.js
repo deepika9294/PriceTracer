@@ -10,9 +10,18 @@ class Home extends Component{
     
         this.state = {
             products : [],
+            reload : false,
         }
     }
     
+    onDeleteHandle = (dataFromChild) =>{
+        this.setState({
+            reload: dataFromChild,
+        })
+        this.componentDidMount();
+
+    }
+
     componentDidMount(){
         (async () =>{
             
@@ -27,15 +36,13 @@ class Home extends Component{
             .post( BACKEND + '/products/getproducts', user)
             .then(res => {
                 const product_list = (res.data.value).map( (product , index) =>{
-                    return (<ProductCard product={product} key={index}></ProductCard>)
+                    return (<ProductCard product={product} onDeleteHandle = {this.onDeleteHandle} key={index}></ProductCard>)
                 })      
                 this.setState({
                     products : product_list
                 })
             })
             .catch(err => console.log("failed to fetch products"));
-            
-           
             
         })();  
     }

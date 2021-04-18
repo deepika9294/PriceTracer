@@ -27,7 +27,7 @@ const extractPrice = async (page, thresholdPrice, productName, pid, jobs_array) 
 
     await page.reload();
     
-    const html = await page.evaluate(()=>{
+    const html =  await page.evaluate(()=>{
         return document.body.innerHTML;
     });
 
@@ -81,12 +81,7 @@ const extractPrice = async (page, thresholdPrice, productName, pid, jobs_array) 
                     
                     product.productData = newProductData._id;
 
-                    product.save().then(()=>{
-                        // console.log("updated product with data array id");
-                    })
-                    .catch(err =>{
-                        console.log(err);
-                    })
+                    product.save();
                 }
                 console.log("WAIT !!");
             }

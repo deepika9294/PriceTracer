@@ -119,46 +119,28 @@ router.route('/getproducts').post( async(req, res)=>{
 });
 
 router.route('/deleteproduct').post(async (req, res) =>{
+
+    
     const pid = req.body.product_id;
     const email = req.body.email;
 
     await User.findOne({email}).then(user =>{
-        if(user){
-            if(user.Cart.includes(pid)){
-                Product.findOneAndDelete({ _id : pid}).then(product =>{
-                    if(product){
-                        const product_data_id = product.productData;
-                        ProductData.findOneAndDelete({_id : product_data_id}).then(data =>{
-                            if(data){
-                                console.log("deleted product data");
-                            }
-                            else{
-                                return res.json({success : false, msg : "unsuccessful delete"});
-                            }
-                        })
-                    }
-                    else{
-                        return res.json({success : false, msg : "No such product"});
-                    }
-                })
 
-                
+        Product.findOneAndDelete({ _id : pid}).then(product =>{
+            if(product){
                 user.Cart = user.Cart.filter(product_id => product_id != pid);
-                
                 user.save()
                     .then(()=> console.log("user cart updated"))
                     .catch(err => console.log(err));
-                    
-                return res.json({success : true, msg: "successful delete"})
-
+                
+                ProductData.findOneAndDelete({owner : pid});
+    
+                return res.json({success : true, msg: "successful delete"});
             }
             else{
-                return res.json({success : false, msg : "No such product"});
-            }  
-        }
-        else{
-            return res.json({success: false, msg: 'Not authenticated delete product'});
-        }
+                return res.json({success : false, msg : "unsuccessdul delete"});
+            }
+        }).catch(err => console.log("error : ", err));    
     })
 })
 

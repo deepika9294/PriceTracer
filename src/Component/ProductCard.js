@@ -7,7 +7,6 @@ import {Alert} from 'react-bootstrap';
 class ProductCard extends Component {
     constructor(props) {
         super(props);
-
         this.state = {
             msg : "",
         }
@@ -18,9 +17,7 @@ class ProductCard extends Component {
             email : localStorage.getItem('email'),
             name : localStorage.getItem('name'),
             product_id : this.props.product.product_id,
-        }
-
-        console.log("from delete", user);
+        };
 
         (async()=>{
             const res_data = await axios
@@ -30,7 +27,7 @@ class ProductCard extends Component {
 
 
             if(res_data.success === true){
-                window.location.reload();
+                this.props.onDeleteHandle(true);
             }
             else{
                 this.setState({
