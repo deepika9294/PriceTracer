@@ -1,11 +1,13 @@
 const validURL = require('valid-url');
+const Nightmare = require('nightmare')
+const nightmare = Nightmare({show:true})
 
 const router = require('express').Router();
 let User = require('../models/user');
 const Product = require('../models/product');
 
-const fetchProductDetails = require('../utils/fetchProductDetails');
-const priceTracking = require('../utils/priceTracking');
+const fetchDetails = require('../utils/fetchDetails');
+const priceTracking = require('../utils/priceTracer');
 const fetchWebsite = require('../utils/fetchWebsite');
 const ProductData = require('../models/productData');
 
@@ -17,21 +19,21 @@ router.route('/addproduct').post( async(req, res) => {
     const email = req.body.email;
     const name = req.body.name;
 
+    const url = productURL; 
+
     //validate the url
-    if(!validURL.isUri(productURL)){
+    if(!validURL.isUri(productURL) || ! process.env.WEBSITES.includes(productURL)){
         return res.json({success: false, msg : "invlaid url"});
     }
     
     //fetch the host name
     const website = fetchWebsite(productURL);
+    console.log(website);
 
-    //fetch basic product details
-    const productDetails = await fetchProductDetails(productURL);
-    
+    //const productDetails = await fetchProdDetails(productURL);
+    const {productName, productPrice, productimgURL} = await fetchDetails(website, productURL);
 
-    const { productName, productPrice, productimgURL } = productDetails;
- 
-    // need to modify it later with populate
+    //need to modify it later with populate
     await User.findOne({email : email}).then(user => {
 
         if(!user){
@@ -51,7 +53,7 @@ router.route('/addproduct').post( async(req, res) => {
             newProduct.save()
                 .then(() => {
                     res.json({success : true , msg: "product added successfully"});
-                    // console.log("added new product in product database");
+                    
                     user.Cart.push(newProduct._id);
                     user.save()
                         .then(()=>{
@@ -60,8 +62,10 @@ router.route('/addproduct').post( async(req, res) => {
                         .catch(err =>{
                             console.log("couldnot update the cart");
                         });
-            
-                    priceTracking(productURL, thresholdPrice, productName, newProduct._id);
+                        
+                    
+                    // start price tracing here
+                    priceTracking(website, productURL, thresholdPrice, productName, newProduct._id);
                 })
                 .catch(err => {
                     res.status(400).json('Error: ' + err);
