@@ -22,13 +22,17 @@ router.route('/addproduct').post( async(req, res) => {
     const url = productURL; 
 
     //validate the url
-    if(!validURL.isUri(productURL) || ! process.env.WEBSITES.includes(productURL)){
+    if(!validURL.isUri(productURL)){
         return res.json({success: false, msg : "invlaid url"});
     }
     
     //fetch the host name
     const website = fetchWebsite(productURL);
     console.log(website);
+
+    if(!process.env.WEBSITES.includes(website)){
+        return res.json({success: false, msg : "invlaid url"});
+    }
 
     //const productDetails = await fetchProdDetails(productURL);
     const {productName, productPrice, productimgURL} = await fetchDetails(website, productURL);

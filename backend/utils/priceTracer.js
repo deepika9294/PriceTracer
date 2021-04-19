@@ -17,8 +17,10 @@ const comparator = async(parsedPrice, thresholdPrice, pid, jobs_array) =>{
     if(priceComparator(parsedPrice, thresholdPrice)){
         
         console.log("BUY !!");
-        jobs_array.pop().job.stop();
-
+        if(jobs_array.length !=0 ){
+            jobs_array.pop().job.stop();
+            console.log("job stopped!");
+        }
         //send email notification
         Product.findOne({_id: pid}).then(product =>{
             if(product){
@@ -57,6 +59,7 @@ const comparator = async(parsedPrice, thresholdPrice, pid, jobs_array) =>{
 
                     ProductData.findOne({owner : pid}).then( productdata =>{
                         
+                        
                         productdata.data.push(data);
                
                         productdata.save().then(()=>{
@@ -80,12 +83,16 @@ const comparator = async(parsedPrice, thresholdPrice, pid, jobs_array) =>{
 
                     product.save();
                 }
+
                 console.log("WAIT !!");
             }
             else{
 
-                jobs_array.pop().job.stop();
-                console.log("job stopped!");
+                if(jobs_array.length !=0 ){
+                    jobs_array.pop().job.stop();
+                    console.log("job stopped!");
+                }
+               
             }
         });
     }
@@ -93,6 +100,25 @@ const comparator = async(parsedPrice, thresholdPrice, pid, jobs_array) =>{
  
 const extractPrice =  async(website, url, thresholdPrice, productName, pid, jobs_array) => {
     try {
+
+        Nightmare.action('EBay', function(done) {
+            this.evaluate_now(() => {
+                try{
+
+                    const priceString = document.querySelector("#prcIsum").innerText || "000zero";
+                    const priceNumber =  Number(priceString.replace(/[^0-9.-]+/g, "" ));  
+                   
+                    return {
+                        price: priceNumber,
+                    }
+
+                }catch(e){
+                   console.log("error :",  e);
+                }    
+                
+            }, done)
+        })
+
         Nightmare.action('Flipkart', function(done) {
             this.evaluate_now(() => {
                 try{
@@ -166,6 +192,18 @@ const extractPrice =  async(website, url, thresholdPrice, productName, pid, jobs
             .then(async (Flipkart) => {
                 await comparator(Flipkart.price, thresholdPrice, pid, jobs_array);
             })
+        }
+        else if(website == "www.ebay.com"){
+           
+            const x = await Nightmare()
+            .goto(url)
+            .EBay()
+            .end()
+            .then(async (EBay) => {
+                await comparator(EBay.price, thresholdPrice, pid, jobs_array);
+            })
+
+            return x;
         }   
     } 
     catch (e) {

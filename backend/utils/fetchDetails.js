@@ -4,6 +4,29 @@ const nightmare = Nightmare({show:true})
 const fetchDetails = async (website, url) => {
     
     try {
+
+        Nightmare.action('EBay', function(done) {
+            this.evaluate_now(() => {
+                try{
+
+                    const priceString = document.querySelector("#prcIsum").innerText || "000zero";
+                    const pname = document.querySelector("#itemTitle").innerText|| "Name";
+                    const image = document.querySelector("#icImg").src;
+                   
+                    return {
+                        pString : priceString,
+                        name : pname,
+                        image : image,
+                    }
+
+                }catch(e){
+                   console.log("error :",  e);
+                }    
+                
+            }, done)
+        })
+
+
         Nightmare.action('Flipkart', function(done) {
             this.evaluate_now(() => {
                 try{
@@ -122,6 +145,30 @@ const fetchDetails = async (website, url) => {
                 productName   =  Flipkart.name;
                 productPrice  =  priceNumber;
                 productimgURL =  Flipkart.image;
+
+                return {
+                    productName,
+                    productPrice,
+                    productimgURL,
+                }
+            })
+
+            return x;
+        }
+        else if(website == "www.ebay.com"){
+           
+            const x = await Nightmare()
+            .goto(url)
+            .EBay()
+            .end()
+            .then(EBay => {
+    
+                const priceNumber =  Number(EBay.pString.replace(/[^0-9.-]+/g, "" ));
+               
+                
+                productName   =  EBay.name;
+                productPrice  =  priceNumber;
+                productimgURL =  EBay.image;
 
                 return {
                     productName,
