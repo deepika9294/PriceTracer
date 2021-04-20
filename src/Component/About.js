@@ -30,7 +30,9 @@ export class About extends Component {
                         <ul>
                             <li>Flipkart</li>
                             <li>Amazon</li>
-                            <li>Myntra</li>
+                            <li>Snapdeal</li>
+                            <li>EBay</li>
+                            <li>Paytmmall</li>
                         </ul>
                     </p>
                     <hr/>
