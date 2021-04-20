@@ -65,8 +65,8 @@ class ProductCard extends Component {
                                 </div>
                                 <div className="card-body">
                                     <h4 className="card-title">{this.props.product.productName}</h4>
-                                    <p className="card-text">Actual Price    - {this.props.product.productWebsite === "www.ebay.com" ? "$" : "₹"}{this.props.product.productPrice}</p>
-                                    <p className="card-text">Threshold Price - {this.props.product.productWebsite === "www.ebay.com" ? "$" : "₹"}{this.props.product.thresholdPrice}</p>
+                                    <p className="card-text">Actual Price    - {this.props.product.productWebsite === "www.ebay.com" || this.props.product.productWebsite === "www.amazon.com"  ? "$" : "₹"}{this.props.product.productPrice}</p>
+                                    <p className="card-text">Threshold Price - {this.props.product.productWebsite === "www.ebay.com" || this.props.product.productWebsite === "www.amazon.com"  ? "$" : "₹"}{this.props.product.thresholdPrice}</p>
                                     <p className="card-text">Product Website - {this.props.product.productWebsite}</p>
                                     <p className="card-text">Know More <a href={this.props.product.productURL}>Product URL</a></p>
                                     <h4>Notification - {this.props.product.isThresholdReached ? "SENT" : "PENDING" }</h4>
