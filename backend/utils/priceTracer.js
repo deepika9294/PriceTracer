@@ -101,6 +101,24 @@ const comparator = async(parsedPrice, thresholdPrice, pid, jobs_array) =>{
 const extractPrice =  async(website, url, thresholdPrice, productName, pid, jobs_array) => {
     try {
 
+        Nightmare.action('Paytmmall', function(done) {
+            this.evaluate_now(() => {
+                try{
+
+                    const priceString =document.querySelector('._1V3w').innerText;
+                    const priceNumber =  Number(priceString.replace(/[^0-9.-]+/g, "" ));  
+                   
+                    return {
+                        price: priceNumber,
+                    }
+
+                }catch(e){
+                   console.log("error :",  e);
+                }    
+                
+            }, done)
+        })
+
         Nightmare.action('EBay', function(done) {
             this.evaluate_now(() => {
                 try{
@@ -201,6 +219,18 @@ const extractPrice =  async(website, url, thresholdPrice, productName, pid, jobs
             .end()
             .then(async (EBay) => {
                 await comparator(EBay.price, thresholdPrice, pid, jobs_array);
+            })
+
+            return x;
+        }
+        else if(website == "paytmmall.com"){
+           
+            const x = await Nightmare()
+            .goto(url)
+            .Paytmmall()
+            .end()
+            .then(async (Paytmmall) => {
+                await comparator(Paytmmall.price, thresholdPrice, pid, jobs_array);
             })
 
             return x;

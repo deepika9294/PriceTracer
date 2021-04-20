@@ -82,6 +82,20 @@ const fetchDetails = async (website, url) => {
             }, done)
         })
 
+        Nightmare.action('Paytmmall', function(done) {
+            this.evaluate_now(() => {
+            
+                const priceString =document.querySelector('._1V3w').innerText;
+                const pname = document.querySelector(".NZJI").innerText;
+                const image = document.querySelector("._3v_O").src;
+                return {
+                    pString : priceString,
+                    name : pname,
+                    image : image,
+                }
+            }, done)
+        })
+
 
         if (website == "www.amazon.com" || website == "www.amazon.in"){
             const x = await Nightmare()
@@ -169,6 +183,29 @@ const fetchDetails = async (website, url) => {
                 productName   =  EBay.name;
                 productPrice  =  priceNumber;
                 productimgURL =  EBay.image;
+
+                return {
+                    productName,
+                    productPrice,
+                    productimgURL,
+                }
+            })
+
+            return x;
+        }
+        else if(website == "paytmmall.com"){
+            const x = await Nightmare()
+            .goto(url)
+            .Paytmmall()
+            .end()
+            .then(Paytmmall => {
+    
+                const priceNumber =  Number(Paytmmall.pString.replace(/[^0-9.-]+/g, "" ));
+               
+                
+                productName   =  Paytmmall.name;
+                productPrice  =  priceNumber;
+                productimgURL = Paytmmall.image;
 
                 return {
                     productName,
