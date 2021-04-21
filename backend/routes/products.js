@@ -7,10 +7,13 @@ let User = require('../models/user');
 const Product = require('../models/product');
 
 const fetchDetails = require('../utils/fetchDetails');
+const getRecommendation = require('../utils/getRecommendation');
 const priceTracking = require('../utils/priceTracer');
 const fetchWebsite = require('../utils/fetchWebsite');
 const ProductData = require('../models/productData');
-
+const RecProduct = require('../models/recProducts');
+const update = require('../utils/updateRecommendation');
+const loop_data = require('../utils/updateRecommendation');
 
 router.route('/addproduct').post( async(req, res) => {
     
@@ -18,6 +21,7 @@ router.route('/addproduct').post( async(req, res) => {
     const thresholdPrice = req.body.thresholdPrice;
     const email = req.body.email;
     const name = req.body.name;
+    const title = req.body.title;
 
     const url = productURL; 
 
@@ -31,7 +35,7 @@ router.route('/addproduct').post( async(req, res) => {
     console.log(website);
 
     if(!process.env.WEBSITES.includes(website)){
-        return res.json({success: false, msg : "invlaid url"});
+        return res.json({success: false, msg : "Webiste not supported ! "});
     }
 
     //const productDetails = await fetchProdDetails(productURL);
@@ -50,6 +54,7 @@ router.route('/addproduct').post( async(req, res) => {
             newProduct.productImage = productimgURL;
             newProduct.productURL = productURL;
             newProduct.productWebsite = website;
+            newProduct.productTitle = title;
             newProduct.thresholdPrice = thresholdPrice;
             newProduct.owner =  user._id;
             newProduct.productPrice = Number(productPrice);
@@ -68,8 +73,22 @@ router.route('/addproduct').post( async(req, res) => {
                         });
                         
                     
-                    // start price tracing here
+                    //start price tracing here
                     priceTracking(website, productURL, thresholdPrice, productName, newProduct._id);
+
+                    //starts recommendation scraping and stores the data
+                    (async ()=>{
+                        const data = await getRecommendation(website, title, Number(productPrice) );
+                        console.log("data :", data);
+                        const newRec = new RecProduct();
+                        newRec.owner = newProduct._id;
+                        newRec.data = data;
+                        newRec.save().then(()=> console.log("saved")).catch((err)=> console.log("save error : ",  err));
+                        newProduct.recProducts = newRec._id;
+                        newProduct.save().then(()=> console.log("saved")).catch((err)=> console.log("save error : ",  err));;
+    
+                    })()
+
                 })
                 .catch(err => {
                     res.status(400).json('Error: ' + err);
@@ -143,7 +162,18 @@ router.route('/deleteproduct').post(async (req, res) =>{
                     .catch(err => console.log(err));
                 
                 ProductData.findOneAndDelete({owner : pid});
-    
+                (async ()=>{
+                    while(1){
+                        const x = await RecProduct.findOneAndDelete({owner : pid}).then(rec =>{
+                           return rec;
+                        })
+                        if(x){
+                           console.log("rec products deleted !"); 
+                           break;
+                        }
+                    }
+                })()
+                
                 return res.json({success : true, msg: "successful delete"});
             }
             else{
@@ -153,5 +183,29 @@ router.route('/deleteproduct').post(async (req, res) =>{
     })
 })
 
+router.route('/getRecommendation').post( async (req, res) => {
+
+    console.log("In recommendation");
+    const pid = req.body.product_id;
+    const uid = req.body.user_id;
+
+    if(uid){
+        Product.findOne({_id: pid}).then(product =>{
+           if(product){
+                RecProduct.findOne({owner : pid}).then(rec =>{
+                    if(rec){
+                        return res.json({success : true, value : rec.data});  
+                    }
+                })                
+           }
+           else{
+               return res.json({success : false, msg : 'No such Product Exsits'});
+           }
+        })
+    }
+    else{
+        return res.json({success : false, msg : "User not Authenticated"});
+    }
+})
 
 module.exports = router;

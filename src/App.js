@@ -15,6 +15,7 @@ import Header from "./Component/Header";
 import Land from './Component/Land';
 import ProtectedRoute from './Component/ProtectedRoute';
 import About from './Component/About';
+import RecProducts from './Component/RecProducts';
 
 function App() {
 
@@ -57,6 +58,7 @@ function App() {
          <ProtectedRoute exact path='/home' user={isUserValid} component={Home} />
          <ProtectedRoute exact path="/products/addproduct" user={isUserValid} component={AddProduct} />
          <ProtectedRoute exact path="/about" user={isUserValid} component={About} />
+         <ProtectedRoute exact path="/products/getRecommendation" user={isUserValid} component={RecProducts}/>
 
          {/* <Route path="/home" component={Home} /> */}
          {/* <Route exact path="/products/addproduct" component={AddProduct}/> */}

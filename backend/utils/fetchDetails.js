@@ -5,10 +5,11 @@ const fetchDetails = async (website, url) => {
     
     try {
 
+        //sorted
         Nightmare.action('EBay', function(done) {
             this.evaluate_now(() => {
                 try{
-
+                   
                     const priceString = document.querySelector("#prcIsum").innerText || "000zero";
                     const pname = document.querySelector("#itemTitle").innerText|| "Name";
                     const image = document.querySelector("#icImg").src;
@@ -26,21 +27,25 @@ const fetchDetails = async (website, url) => {
             }, done)
         })
 
-
+        //sorted
         Nightmare.action('Flipkart', function(done) {
             this.evaluate_now(() => {
                 try{
-
-                    const priceString = document.querySelector("._30jeq3._16Jk6d").innerText || "000zero";
+                    
+                    const priceString = document.getElementsByClassName("_30jeq3 _16Jk6d").innerText || "000zero";
                     const pname = document.querySelector(".B_NuCI").innerText|| "Name";
-                    const image = document.querySelector("._396cs4._2amPTt._3qGmMb._3exPp9").src;
-                   
-                    return {
-                        pString : priceString,
-                        name : pname,
-                        image : image,
+                    const classes = ['._396cs4._2amPTt._3qGmMb._3exPp9', '._2r_T1I._396QI4'];
+                    for(var i=0; i < classes.length; i++){
+                        const image = document.querySelector(classes[i]).src;
+                        if(image != null && image != undefined){
+                            return {
+                                pString : priceString,
+                                name : pname,
+                                image : image,
+                            }
+                        }    
                     }
-
+                
                 }catch(e){
                    console.log("error :",  e);
                 }    
@@ -48,7 +53,7 @@ const fetchDetails = async (website, url) => {
             }, done)
         })
 
-
+        //sorted
         Nightmare.action('Snapdeal', function(done) {
             this.evaluate_now(() => {
                 try{
@@ -68,11 +73,11 @@ const fetchDetails = async (website, url) => {
             }, done)
         })
 
-
+        //sorted
         Nightmare.action('Amazon', function(done) {
             this.evaluate_now(() => {
-            const priceString =(document.getElementById("priceblock_dealprice")|| document.getElementById("atfRedesign_priceblock_priceToPay") || document.getElementById("priceblock_ourprice")).innerText || 0
-            const pname = document.getElementById("productTitle").innerText;
+            const priceString =(document.getElementById("priceblock_dealprice")|| document.getElementById("atfRedesign_priceblock_priceToPay") || document.getElementById("priceblock_ourprice")).innerText || document.getElementsByClassName('a-price-whole').innerText;
+            const pname = document.getElementById("productTitle").innerText || document.getElementById('title').innerText || null;
             const image = document.getElementById("landingImage").src;
             return {
                 pString : priceString,
@@ -82,6 +87,7 @@ const fetchDetails = async (website, url) => {
             }, done)
         })
 
+        //sorted
         Nightmare.action('Paytmmall', function(done) {
             this.evaluate_now(() => {
             
@@ -103,10 +109,13 @@ const fetchDetails = async (website, url) => {
                 .Amazon()
                 .end()
                 .then(Amazon => {
-                    console.log(Amazon.pString, Amazon.name, Amazon.image);
-                    const priceNumber =  Number(Amazon.pString.replace(/[^0-9.-]+/g, "" ));
-                    console.log(priceNumber);
 
+                    if(Amazon.pString.includes("-")){
+                        Amazon.pString = Amazon.pString.split("-")[0];
+                    }
+
+                    const priceNumber =  Number(Amazon.pString.replace(/[^0-9.-]+/g, "" ));
+                
                     productName   =  Amazon.name;
                     productPrice  =  priceNumber;
                     productimgURL =  Amazon.image;
@@ -179,7 +188,6 @@ const fetchDetails = async (website, url) => {
     
                 const priceNumber =  Number(EBay.pString.replace(/[^0-9.-]+/g, "" ));
                
-                
                 productName   =  EBay.name;
                 productPrice  =  priceNumber;
                 productimgURL =  EBay.image;
