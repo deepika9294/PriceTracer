@@ -3,8 +3,8 @@
     flex: 1 1 auto;
     
 }
-
 .card{
+    background-color: teal;
     height : auto;
     margin-top: 50px;
 }
