@@ -4,8 +4,8 @@ export class Land extends Component {
     render() {
         return (
             <div>
-                <h1 style={{fontFamily: 'Times', color: 'whitesmoke', textAlign: 'center', position : 'relative', top : '500px'}}>Track Prices of Your Favourite Products</h1>
-                <h1 style={{fontFamily: 'Times',color: 'whitesmoke', textAlign: 'center', position : 'relative', top: '350px'}}>Welcome To Price Tracer</h1>
+                <h2 class="intro1">Welcome to <br></br> Price Tracer !!</h2>
+                <h2 class="intro">Track Prices of Your Favourite Products..</h2>
             </div>
         )
     }

@@ -3,10 +3,10 @@ import React, { Component } from 'react'
 export class About extends Component {
     render() {
         return (
-            <div style={{marginTop : '200px', color : 'black', backgroundColor : 'whitesmoke'}}className="container">
+            <div className="abt">
                 <h1>About The Website</h1>
 
-                <div style={{fontSize : '20px'}}> 
+                <div style={{fontSize : '1em'}}> 
                     This webiste - <u>Price Tracer</u> helps users by notifying them
                     by Email (given by thne at the time of Registration) of fall in
                     price of a product that they have registered for tracking.
