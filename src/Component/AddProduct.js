@@ -70,15 +70,15 @@ class AddProduct extends Component{
         return(
             <div className="container">
                 <CartNavbar/>
-                <div style={{width: '50%', marginTop : '100px'}}>
+                <div style={{width: '80%', margin : '10px auto'}}>
                       
-                    <form style={{marginTop: '50px'}} onSubmit={this.onSubmit}>
+                    <form onSubmit={this.onSubmit}>
                         { this.state.msg? <Alert style={{width : '50%'}} variant={this.state.variant}o onClose={this.onClose} dismissible>
                                                 <p>{this.state.msg.toUpperCase()}</p>
                                             </Alert> : "" }
-                        <h2 style={{color : 'red'}}><u>Add Product</u></h2><br/>
+                        {/* <h2 style={{color : 'red'}}><u>Add Product</u></h2><br/> */}
                         <div className={"form-group"}>
-                            <label style={{fontSize : '20px', color: 'white'}} htmlFor="producturl">Product URL</label><br />
+                            <label style={{fontSize : '20px', color: 'white'}} htmlFor="producturl">Product URL</label>
                             <input style={{ width: '90%', height : '40px'}}
                                 id="producturl" 
                                 type="text"
@@ -88,10 +88,9 @@ class AddProduct extends Component{
                                 onChange={this.onChangeProductURL}
                                 required
                             />
-                            <br/>
                         </div>
                         <div  className={"form-group"}>
-                            <label style={{fontSize: '20px', color: 'white'}}  htmlFor="price">Price</label><br />
+                            <label style={{fontSize: '20px', color: 'white'}}  htmlFor="price">Price</label>
                             <input style={{ width: '90%', height : '40px'}} 
                                 id="price" 
                                 type="number" 
@@ -102,7 +101,7 @@ class AddProduct extends Component{
                                 required
                             />
                         </div><br/>
-                        <button type="submit" style={{width: '90%', marginLeft:0}} className={'btn btn-primary btn-block'}>Add Product</button>
+                        <button type="submit" style={{width: '95%', margin:"2px auto 6px"}} className={'btn btn-primary btn-block'}>Add Product</button>
                     </form>
                
                 </div>
