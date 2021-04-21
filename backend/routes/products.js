@@ -12,8 +12,6 @@ const priceTracking = require('../utils/priceTracer');
 const fetchWebsite = require('../utils/fetchWebsite');
 const ProductData = require('../models/productData');
 const RecProduct = require('../models/recProducts');
-const update = require('../utils/updateRecommendation');
-const loop_data = require('../utils/updateRecommendation');
 
 router.route('/addproduct').post( async(req, res) => {
     
@@ -185,7 +183,6 @@ router.route('/deleteproduct').post(async (req, res) =>{
 
 router.route('/getRecommendation').post( async (req, res) => {
 
-    console.log("In recommendation");
     const pid = req.body.product_id;
     const uid = req.body.user_id;
 

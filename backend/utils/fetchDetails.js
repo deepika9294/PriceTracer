@@ -31,20 +31,20 @@ const fetchDetails = async (website, url) => {
         Nightmare.action('Flipkart', function(done) {
             this.evaluate_now(() => {
                 try{
-                    
-                    const priceString = document.getElementsByClassName("_30jeq3 _16Jk6d").innerText || "000zero";
+              
+                    const priceString = document.querySelector("._30jeq3._16Jk6d").innerText || "000zero";
                     const pname = document.querySelector(".B_NuCI").innerText|| "Name";
-                    const classes = ['._396cs4._2amPTt._3qGmMb._3exPp9', '._2r_T1I._396QI4'];
-                    for(var i=0; i < classes.length; i++){
-                        const image = document.querySelector(classes[i]).src;
-                        if(image != null && image != undefined){
-                            return {
-                                pString : priceString,
-                                name : pname,
-                                image : image,
-                            }
-                        }    
+                    var image = document.querySelector("._2r_T1I._396QI4").src;
+                    if(!image){
+                        image = document.querySelector("._396cs4._2amPTt._3qGmMb._3exPp9").src ;
                     }
+
+                    return {
+                        pString : priceString,
+                        name : pname,
+                        image : image,
+                    }
+                   
                 
                 }catch(e){
                    console.log("error :",  e);
@@ -161,7 +161,7 @@ const fetchDetails = async (website, url) => {
             .Flipkart()
             .end()
             .then(Flipkart => {
-    
+                console.log(Flipkart.pString)
                 const priceNumber =  Number(Flipkart.pString.replace(/[^0-9.-]+/g, "" ));
                
                 
