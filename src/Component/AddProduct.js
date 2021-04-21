@@ -4,12 +4,14 @@ import {BACKEND} from '../config';
 import React, {Component} from 'react';
 import CartNavbar from './CartNavbar';
 import {Alert} from 'react-bootstrap';
+import 'semantic-ui-css/semantic.min.css'
 
 class AddProduct extends Component{
     constructor(props) {
         super(props);
     
         this.state = {
+            productTitle : "",
             productURL : "",
             thresholdPrice : "",
             msg : "",
@@ -20,6 +22,12 @@ class AddProduct extends Component{
     onChangeProductURL =(e)=>{
         this.setState({
             productURL : e.target.value
+        });
+    }
+
+    onChangeProductTitle =(e)=>{
+        this.setState({
+            productTitle : e.target.value
         });
     }
 
@@ -37,6 +45,7 @@ class AddProduct extends Component{
             thresholdPrice : this.state.thresholdPrice,
             email : localStorage.getItem('email'),
             name : localStorage.getItem('name'),
+            title : this.state.productTitle,
         }
 
         const res_data = await axios
@@ -73,10 +82,28 @@ class AddProduct extends Component{
                 <div style={{width: '50%', marginTop : '100px'}}>
                       
                     <form style={{marginTop: '50px'}} onSubmit={this.onSubmit}>
-                        { this.state.msg? <Alert style={{width : '50%'}} variant={this.state.variant}o onClose={this.onClose} dismissible>
+                        { this.state.msg? <Alert style={{width : '90%'}} variant={this.state.variant}o onClose={this.onClose} dismissible>
                                                 <p>{this.state.msg.toUpperCase()}</p>
                                             </Alert> : "" }
                         <h2 style={{color : 'red'}}><u>Add Product</u></h2><br/>
+                        
+                        <div className={"form-group"}>
+                            <Alert style={{width : '90%'}} variant="danger">
+                                <span><i className="info circle large icon"></i>product Title is used for Recommending products, please enter valid and legitimate data to get accurate recommendation results
+                                </span>
+                            </Alert>
+                            <label style={{fontSize : '20px', color: 'white'}} htmlFor="productTitle">Product Title</label><br />
+                            <input style={{ width: '90%', height : '40px'}}
+                                id="productTitle" 
+                                type="text"
+                                name="productTitle" 
+                                placeholder="Enter Title" 
+                                value={this.state.productTitle} 
+                                onChange={this.onChangeProductTitle}
+                                required
+                            />
+                            <br/>
+                        </div>
                         <div className={"form-group"}>
                             <label style={{fontSize : '20px', color: 'white'}} htmlFor="producturl">Product URL</label><br />
                             <input style={{ width: '90%', height : '40px'}}

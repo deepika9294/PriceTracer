@@ -2,29 +2,33 @@ const mongoose  = require('mongoose');
 
 const recProductSchema = new mongoose.Schema({
     owner : {
-        id : mongoose.Schema.Types.ObjectId,
-        productURL : String,
-        productName : String,
+        type : mongoose.Schema.Types.ObjectId,
         required: true,
     },
-    website : {
-        type : String,
-        trim : true,
-        required : true,
-    },
-    productName : {
-        type : String,
-        required : true,
-    },
-    productURL : {
-        type : String,
-        trim : true,
-        required : true,
-    },
-    price : {
-        type : Number,
-        required : true,
-    }
+    data : [
+        {
+            website : {
+                type : String,
+                required : true,
+            },
+            urls : [
+                {
+                    url : {
+                        type : String,
+                        required : true,
+                    },
+                    price : {
+                        type : Number,
+                        required : true,
+                    },
+                    name : {
+                        type : String,
+                        required : true,
+                    }
+                }
+            ]
+        }
+    ]
 });
 
 const RecProduct  = mongoose.model('RecProduct', recProductSchema);
