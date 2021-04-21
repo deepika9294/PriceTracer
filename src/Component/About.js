@@ -6,7 +6,7 @@ export class About extends Component {
             <div style={{marginTop : '200px', color : 'black', backgroundColor : 'whitesmoke'}}className="container">
                 <h1>About The Website</h1>
 
-                <p style={{fontSize : '20px'}}> 
+                <div style={{fontSize : '20px'}}> 
                     This webiste - <u>Price Tracer</u> helps users by notifying them
                     by Email (given by thne at the time of Registration) of fall in
                     price of a product that they have registered for tracking.
@@ -25,7 +25,7 @@ export class About extends Component {
                     The users can also review the on demand graphical analysis of the price trends of the products that are currently being tracked
                     by them and in addition to that the can also be recommended the same product from various e-commerece webistes.
                     <hr/>
-                    <p>
+                    <div>
                         <b>List of Websites suppoorted -</b>
                         <ul>
                             <li>Flipkart</li>
@@ -34,12 +34,12 @@ export class About extends Component {
                             <li>EBay</li>
                             <li>Paytmmall</li>
                         </ul>
-                    </p>
+                    </div>
                     <hr/>
                     <footer> 
                         Price Tracer - 2021
                     </footer>
-                </p>
+                </div>
             </div>
         )
     }
