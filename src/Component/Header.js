@@ -1,12 +1,7 @@
-import React, { useContext } from 'react';
+import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
-// import AuthOptions from './AuthOptions';
-import { Icon } from "semantic-ui-react";
-import { SiShopify } from "react-icons/si";
-import { useHistory } from 'react-router-dom';
-import UserContext from "../context/userContext";
+import AuthOptions from './AuthOptions';
 import './Landing.css';
-import { Button } from "reactstrap";
 
 class Header extends Component {
    

@@ -39,7 +39,6 @@ class ProductCard extends Component {
             }
 
         })();
-
        
     
     }
@@ -51,25 +50,6 @@ class ProductCard extends Component {
             product_id : this.props.product.product_id,
         };
         console.log("HI," + user.product_id);
-
-        // (async()=>{
-        //     const res_data = await axios
-        //     .post( BACKEND + '/products/deleteproduct', user)
-        //     .then(res => res.data)
-        //     .catch(err => console.log("failed to delete product"));
-
-
-        //     if(res_data.success === true){
-        //         this.props.onDeleteHandle(true);
-        //     }
-        //     else{
-        //         this.setState({
-        //             msg : res_data.msg,
-        //         })
-        //     }
-
-        // })();
-
     }
 
     onClose = (e) =>{
@@ -107,7 +87,7 @@ class ProductCard extends Component {
                                         }}
                                     >
                                     <Button color="link">
-                                    <span>Get trendst</span>
+                                    <span>Get trends</span>
                                     </Button>
                                     </Link>
                                     {/* <button onClick ={this.onGetTrends} className="btn btn-outline-success btn-md float-right">Get Price Trends</button> */}
