@@ -4,7 +4,7 @@ import {BACKEND} from '../config';
 import React, {Component} from 'react';
 import CartNavbar from './CartNavbar';
 import {Alert} from 'react-bootstrap';
-import 'semantic-ui-css/semantic.min.css'
+
 
 class AddProduct extends Component{
     constructor(props) {
