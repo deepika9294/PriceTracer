@@ -28,7 +28,7 @@ function AuthOptions () {
                 <>
                 <button className="btn btn-dark mr-2" onClick={logout}>Logout</button>
                 <button className="btn btn-dark mr-2" onClick={home}>Home</button>
-                <buttom className="btn btn-dark mr-2" onClick={about}>About</buttom>
+                <button className="btn btn-dark mr-2" onClick={about}>About</button>
                 </>
 
             ) : (

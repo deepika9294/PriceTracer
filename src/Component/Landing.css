@@ -61,4 +61,14 @@ h1,h2,h3,h4,h5,h6,label,span {
     color: #167bff;
   }
   
+  .color-nav {
+    background: black;
+  }
+
+  .text-nav {
+    font-size: 1.2em;
+    font-weight: 300;
+    color: white;
+
+  }
   
