@@ -9,8 +9,21 @@ const fetchDetails = async (website, url) => {
         Nightmare.action('EBay', function(done) {
             this.evaluate_now(() => {
                 try{
-                   
-                    const priceString = document.querySelector("#prcIsum").innerText || document.querySelector("#prcIsum_bidPrice").innerText || "000zero";
+                    
+                    var classes = ["#prcIsum", "#prcIsum_bidPrice"];
+
+                    for(var i=0; i<classes.length; i++){
+                        try{
+                            var priceString =  document.querySelector(classes[i]).innerText;
+                            break;
+                        }
+                        catch(error){
+                            priceString = null;
+                        }
+                        
+                    }
+
+                    //const priceString = document.querySelector("#prcIsum").innerText || document.querySelector("#prcIsum_bidPrice").innerText || "000zero";
                     const pname = document.querySelector("#itemTitle").innerText|| "Name";
                     const image = document.querySelector("#icImg").src;
                    
@@ -88,7 +101,20 @@ const fetchDetails = async (website, url) => {
         //sorted
         Nightmare.action('Amazon', function(done) {
             this.evaluate_now(() => {
-                const priceString =(document.getElementById("priceblock_dealprice")|| document.getElementById("atfRedesign_priceblock_priceToPay") || document.getElementById("priceblock_ourprice")).innerText || document.getElementsByClassName('a-price-whole').innerText;
+
+                var classes= ["priceblock_dealprice", "atfRedesign_priceblock_priceToPay", "priceblock_ourprice", "a-price-whole", "priceblock_saleprice"];
+
+                for(var i = 0; i< classes.length; i++){
+                    try{
+                        var priceString = document.getElementById(classes[i]).innerText;
+                        break;
+                    }
+                    catch(err){
+                        priceString = null;
+                    }
+                }
+
+                //const priceString = (document.getElementById("priceblock_dealprice").innerText|| document.getElementById("atfRedesign_priceblock_priceToPay").innerText || document.getElementById("priceblock_ourprice")).innerText || document.getElementsByClassName('a-price-whole').innerText || document.getElementById("priceblock_saleprice").innerText;
                 const pname = document.getElementById("productTitle").innerText || document.getElementById('title').innerText || null;
                 const image = document.getElementById("landingImage").src;
                 return {
