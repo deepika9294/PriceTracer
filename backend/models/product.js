@@ -36,6 +36,9 @@ const productSchema = new mongoose.Schema({
         type : Boolean,
         default : false,
     },
+    productTitle : {
+        type : String,
+    },
     productData : {
         type : mongoose.Schema.Types.ObjectId,
     },

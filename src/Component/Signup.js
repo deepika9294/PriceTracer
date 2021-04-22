@@ -76,12 +76,10 @@ function Signup () {
                     <p className="forgot-password text-right">
                         Already registered   
                         <Link to="/signin">
-                            <Button color="link">
-                            <span>sign in?</span>
+                            <Button>
+                            <span>Sign in?</span>
                             </Button>
                         </Link>
-
-
                     </p>
                 </form>
             </div>
