@@ -46,7 +46,7 @@ router.route('/verify').get(async (req,res) => {
             "userVerified": true
           }
         };
-        const options = { returnNewDocument: true };
+        const options = { returnNewDocument: true , useFindAndModify: false};
 
         await User.findOneAndUpdate(query,update, options)
           .then(user => {
