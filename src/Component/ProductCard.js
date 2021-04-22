@@ -42,7 +42,6 @@ class ProductCard extends Component {
 
     onRecommend = (e) =>{
         this.props.onRecommendHandle(this.props.product.product_id);
-       
     
     }
 

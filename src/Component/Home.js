@@ -20,7 +20,7 @@ class Home extends Component{
             reload: dataFromChild,
         })
         window.location.reload();
-        //this.componentDidMount();
+        
     }
 
     onRecommendHandle = (dataFromChild) =>{
