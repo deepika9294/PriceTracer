@@ -12,9 +12,9 @@ class CartNavbar extends Component{
             <div >
                 <Navbar className="mynav">
                     {/* <Navbar.Brand style={{fontSize: '20px', color : 'red'}} href="/home">My Cart</Navbar.Brand> */}
-                    <Link id="btn-linkl"  to="/home">
+                    <Link id="btn-linkl"  to="/profile">
                             {/* <Button color="link"> */}
-                            <span>My Cart</span>
+                            <span>My Profile</span>
                             {/* </Button> */}
                         </Link>
                     {/* <Nav className="ml-auto"> */}
