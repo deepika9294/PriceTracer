@@ -101,7 +101,7 @@ function Graphs (props) {
       </div>
     ) : (
         <>
-        Loading
+        <h1>Loading</h1>
         </>
     )
 }

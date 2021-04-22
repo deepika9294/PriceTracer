@@ -1,7 +1,6 @@
 .card-horizontal {
     display: flex;
     flex: 1 1 auto;
-    
 }
 
 .card{
@@ -10,8 +9,8 @@
 }
 
 img{
-    height: 100%;
-    width: fit-content;
+    height: 400px;
+    width:  400px;
     
 }
 button{

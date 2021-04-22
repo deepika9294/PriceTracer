@@ -38,6 +38,8 @@ router.route('/addproduct').post( async(req, res) => {
 
     //const productDetails = await fetchProdDetails(productURL);
     const {productName, productPrice, productimgURL} = await fetchDetails(website, productURL);
+    
+    
 
     //need to modify it later with populate
     await User.findOne({email : email}).then(user => {
@@ -102,7 +104,7 @@ router.route("/getproductdata/:id").get((req, res) => {
     ProductData.findOne({owner: req.params.id})
       .then((data) => res.json(data))
       .catch((err) => res.status(400).json("Error: " + err));
-  });
+});
   
 
 router.route('/getproducts').post( async(req, res)=>{
@@ -196,14 +198,15 @@ router.route('/getRecommendation').post( async (req, res) => {
 
     if(uid){
         Product.findOne({_id: pid}).then(product =>{
-           if(product){
+            if(product){
+                const price_array = [];
                 RecProduct.findOne({owner : pid}).then(rec =>{
                     if(rec){
-                        return res.json({success : true, value : rec.data});  
+                        return res.json({success : true, value : rec.data});
                     }
-                })                
-           }
-           else{
+                });
+            }
+            else{
                return res.json({success : false, msg : 'No such Product Exsits'});
            }
         })

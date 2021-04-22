@@ -46,32 +46,25 @@ const fetchURL = async (url, website) =>{
             this.evaluate_now(() => {
                 try{
                     
-                    const urls = document.querySelectorAll('a.a-link-normal.s-no-outline');
-                    if(urls){
-                        const links = [];
-                        urls.forEach((url) =>{
-                            links.push(url.href);
-                        })
+                    var classes = ['a.a-link-normal.s-no-outline', 'a.a-link-normal.a-text-norma'];
+                    for(var i =0; i <classes.length; i++){
+                        const urls = document.querySelectorAll(classes[i]);
+                        if(urls.length != 0){
+                            const links = [];
+                            urls.forEach((url) =>{
+                                links.push(url.href);
+                            })
 
-                        return {
-                            urls : links.splice(0,2),
+                            return {
+                                urls : links.splice(0,2),
+                            }
                         }
-                    }
-
-                    var urls1 = document.querySelectorAll('a.a-link-normal.a-text-norma');
-                    const links = [];
-                    urls1.forEach((url) =>{
-                        links.push(url.href);
-                    })
-
-                    return {
-                        urls : links.splice(0,2),
                     }
                 
                 }catch(e){
                     console.log("error : ", e);
                 }    
-                
+                  
             }, done)
         })
        

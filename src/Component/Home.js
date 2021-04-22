@@ -19,7 +19,8 @@ class Home extends Component{
         this.setState({
             reload: dataFromChild,
         })
-        this.componentDidMount();
+        window.location.reload();
+        //this.componentDidMount();
     }
 
     onRecommendHandle = (dataFromChild) =>{

@@ -20,9 +20,11 @@ const formQueryString = (website, query) =>{
     }
 }
 
-const fetch = async (website, query, price) =>{
+const fetch = async (website, query, price, productWebsite) =>{
     const searchURL = formQueryString(website, query);
-    
+    if(productWebsite === "www.amazon.com" || productWebsite === "www.ebay.com"){
+        price = price * 75;
+    }
     const urls = await fetchURL(searchURL, website);
     
     if(urls === undefined){
@@ -36,20 +38,26 @@ const fetch = async (website, query, price) =>{
     
     for(var i =0; i< urls.length; i++){
         
-        var name;
-        const details = await fetchDetails(website, urls[i]);
-        if(details.productName === undefined){
-            name = null;  
+        
+        var details;
+        var name = query;
+        try{
+            details = await fetchDetails(website, urls[i]);
+            name = details.productName;
         }
-        name = details.productName;
+        catch(e){
+            name = null;
+        }
+       
         if(productPrice < price){
             finalisedURL.push({
                 url : urls[i],
-                name : name || query,
+                name : name,
                 price : details.productPrice,
+                image : details.productimgURL,
             });
         }
-
+        
         console.log("final urls :", finalisedURL);
           
     }
@@ -77,12 +85,12 @@ const getRecommendation = async(productWebsite, query, price) =>{
     
     const data = [];
     for(var i=0; i<websites.length; i++){
-        console.log("webiste :", websites[i]);
-        const x = await fetch(websites[i], query, price);
+        //console.log("webiste :", websites[i]);
+        const x = await fetch(websites[i], query, price, productWebsite);
         data.push(x);
 
     }
-    console.log("returning :(");
+    // console.log("returning :(");
     return data;
 }
 

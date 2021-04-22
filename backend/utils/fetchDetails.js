@@ -10,7 +10,7 @@ const fetchDetails = async (website, url) => {
             this.evaluate_now(() => {
                 try{
                    
-                    const priceString = document.querySelector("#prcIsum").innerText || "000zero";
+                    const priceString = document.querySelector("#prcIsum").innerText || document.querySelector("#prcIsum_bidPrice").innerText || "000zero";
                     const pname = document.querySelector("#itemTitle").innerText|| "Name";
                     const image = document.querySelector("#icImg").src;
                    
@@ -34,26 +34,30 @@ const fetchDetails = async (website, url) => {
               
                     const priceString = document.querySelector("._30jeq3._16Jk6d").innerText || "000zero";
                     const pname = document.querySelector(".B_NuCI").innerText|| "Name";
-                   
-                    var image2 = document.querySelector("._396cs4._2amPTt._3qGmMb._3exPp9").src ;
-                    if(image2){
-                        return {
-                            pString : priceString,
-                            name : pname,
-                            image : image2 ,
-                        }
+                    try{
+                        var image2 = document.querySelector("._396cs4._2amPTt._3qGmMb._3exPp9").src ;
+                        
                     }
-                    const image = document.querySelector("._2r_T1I._396QI4").src;
+                    catch(e){
+                       image2 = null;
+                    }
+                    try{
+                        var image1 = document.querySelector("._2r_T1I._396QI4").src;
+                    }
+                    catch(e){
+                        image1 = null;
+                     }
+                  
+                  
                     return {
                         pString : priceString,
                         name : pname,
-                        image : image,
+                        image1 : image1,
+                        image2 : image2,
                     }
-
-
-                   
-                   
-                
+                  
+                 
+                    
                 }catch(e){
                    console.log("error :",  e);
                 }    
@@ -84,14 +88,14 @@ const fetchDetails = async (website, url) => {
         //sorted
         Nightmare.action('Amazon', function(done) {
             this.evaluate_now(() => {
-            const priceString =(document.getElementById("priceblock_dealprice")|| document.getElementById("atfRedesign_priceblock_priceToPay") || document.getElementById("priceblock_ourprice")).innerText || document.getElementsByClassName('a-price-whole').innerText;
-            const pname = document.getElementById("productTitle").innerText || document.getElementById('title').innerText || null;
-            const image = document.getElementById("landingImage").src;
-            return {
-                pString : priceString,
-                name : pname,
-                image : image
-            }
+                const priceString =(document.getElementById("priceblock_dealprice")|| document.getElementById("atfRedesign_priceblock_priceToPay") || document.getElementById("priceblock_ourprice")).innerText || document.getElementsByClassName('a-price-whole').innerText;
+                const pname = document.getElementById("productTitle").innerText || document.getElementById('title').innerText || null;
+                const image = document.getElementById("landingImage").src;
+                return {
+                    pString : priceString,
+                    name : pname,
+                    image : image
+                }
             }, done)
         })
 
@@ -145,7 +149,10 @@ const fetchDetails = async (website, url) => {
             .end()
             .then(Snapdeal => {
               
+               
                 const priceNumber =  Number(Snapdeal.pString.replace(/[^0-9.-]+/g, "" ));
+                
+             
                
                 productName   =  Snapdeal.name;
                 productPrice  =  priceNumber;
@@ -171,11 +178,15 @@ const fetchDetails = async (website, url) => {
             .then(Flipkart => {
               
                 const priceNumber =  Number(Flipkart.pString.replace(/[^0-9.-]+/g, "" ));
-               
+                var final_image;
+                if(Flipkart.image1 === null)
+                    final_image = Flipkart.image2;
+                else
+                    final_image = Flipkart.image1;
                 
                 productName   =  Flipkart.name;
                 productPrice  =  priceNumber;
-                productimgURL =  Flipkart.image;
+                productimgURL =  final_image;
 
                 return {
                     productName,

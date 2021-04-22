@@ -1,10 +1,8 @@
 import axios from 'axios';
 import {BACKEND} from '../config';
-
 import React, {Component} from 'react';
 import CartNavbar from './CartNavbar';
 import {Alert} from 'react-bootstrap';
-
 
 class AddProduct extends Component{
     constructor(props) {
@@ -86,6 +84,24 @@ class AddProduct extends Component{
                                                 <p>{this.state.msg.toUpperCase()}</p>
                                             </Alert> : "" }
                         {/* <h2 style={{color : 'red'}}><u>Add Product</u></h2><br/> */}
+                        <div className={"form-group"}>
+                            <Alert style={{width : '90%'}} variant="danger">
+                                <span><i className="info circle large icon"></i>product Title is used for Recommending products, please enter valid and legitimate data to get accurate recommendation results
+                                </span>
+                            </Alert>
+                            <label style={{fontSize : '20px', color: 'white'}} htmlFor="productTitle">Product Title</label><br />
+                            <input style={{ width: '90%', height : '40px'}}
+                                id="productTitle" 
+                                type="text"
+                                name="productTitle" 
+                                placeholder="Enter Title" 
+                                value={this.state.productTitle} 
+                                onChange={this.onChangeProductTitle}
+                                required
+                            />
+                            <br/>
+                        </div>
+                        
                         <div className={"form-group"}>
                             <label style={{fontSize : '20px', color: 'white'}} htmlFor="producturl">Product URL</label>
                             <input style={{ width: '90%', height : '40px'}}

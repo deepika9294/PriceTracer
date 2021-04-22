@@ -85,13 +85,13 @@ class ProductCard extends Component {
                                     <p className="card-text">Know More <a href={this.props.product.productURL}>Product URL</a></p>
                                     <h4>Notification - {this.props.product.isThresholdReached ? "SENT" : "PENDING" }</h4>
                                     
-                                    <button onClick={this.onRecommend} className="btn btn-outline-success btn-md float-right">Get Recommendation</button>
-                                    <button onClick={this.onDelete} className="btn btn-outline-danger btn-md float-right">Delete</button>
+                                    <button onClick={this.onRecommend} style={{width: 'auto'}}className="btn btn-outline-success btn-md">Get Recommendation</button>
+                                    <button onClick={this.onDelete} style={{width: 'auto'}} className="btn btn-outline-danger btn-md">Delete</button>
                                     <Link to={{
                                          pathname: `/graphs/${this.props.product.product_id}`,
                                         }}
                                     >
-                                    <Button color="link">
+                                    <Button style={{width: 'auto'}} className="btn btn-outline-success btn-md">
                                     <span>Get trends</span>
                                     </Button>
                                     </Link>
