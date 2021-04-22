@@ -16,6 +16,9 @@ import Land from './Component/Land';
 import ProtectedRoute from './Component/ProtectedRoute';
 import About from './Component/About';
 import RecProducts from './Component/RecProducts';
+import Graphs from './Component/Graphs';
+import Profile from './Component/Profile';
+
 
 function App() {
 
@@ -43,6 +46,15 @@ function App() {
     checkLoggedIn();
   }, []);
 
+  const graphsWithId = ({ match }) => {
+    return (
+      <div>
+        <Graphs id={match.params.id} />
+      </div>
+    );
+  };
+
+
   return (<Router>
     <UserContext.Provider value={{ isUserValid, setIsUserValid }}>
 
@@ -59,6 +71,8 @@ function App() {
          <ProtectedRoute exact path="/products/addproduct" user={isUserValid} component={AddProduct} />
          <ProtectedRoute exact path="/about" user={isUserValid} component={About} />
          <ProtectedRoute exact path="/products/getRecommendation" user={isUserValid} component={RecProducts}/>
+         <ProtectedRoute exact path="/graphs/:id" user={isUserValid} component={graphsWithId} />
+         <ProtectedRoute exact path="/profile" user={isUserValid} component={Profile} />
 
          {/* <Route path="/home" component={Home} /> */}
          {/* <Route exact path="/products/addproduct" component={AddProduct}/> */}
