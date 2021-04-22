@@ -21,9 +21,9 @@ class RecProductCard extends Component {
                                     
                                     <h4 className="card-title">{this.props.product.website}</h4>
                                     {this.props.product.urls.length === 0 ? <span>No Results Found</span> : ""}
-                                    {this.props.product.urls.map(mydata => {
+                                    {this.props.product.urls.map((mydata,index )=> {
                                         return (
-                                            <div>
+                                            <div key={index}>
                                                 <div className="img-square-wrapper">
                                                     <img className="" style = {{width : '300px', height: '300px'}}src={mydata.image} alt="product"/>
                                                 </div>

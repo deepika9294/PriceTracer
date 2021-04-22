@@ -20,6 +20,13 @@ function Signup () {
         e.preventDefault();
 
         try{
+            const check = await validateEmail(email);
+            console.log("check:" + check)
+            if(!check) {
+                alert("Already Registered");
+                history.push("/");
+                return;
+            }
             const newUser = {email, password, name, contactNo};
             await axios.post(BACKEND + "/users/adduser", newUser);
             alert("Please Check your mail for verification");
@@ -29,6 +36,28 @@ function Signup () {
         }
         
     };
+
+    const validateEmail = async (email) => {
+        const user = {
+            email 
+        }
+        const result = await axios.post(BACKEND + "/users/checkuser", user )
+                    .then((res) => {
+                        console.log(res.data)
+                        if (res.data) {
+                            return false;
+                        }
+                        else {
+                            return true;
+                        }
+                    })
+                    .catch((err)=> {
+                        console.log("Error in validating user")
+                        return false;
+                    })
+                    console.log(result);
+        return result;
+    }
    
     return (
         
@@ -48,7 +77,10 @@ function Signup () {
 
                     <div className="form-group">
                         <label>Mobile Number</label>
-                        <input type="text" className="form-control" placeholder="Mobile Number" name="contactNo"
+                        <input type="text" className="form-control" placeholder="Mobile Number" 
+                        name="contactNo"
+                        maxLength="10"
+                        minLength="10"
                         required
                         onChange={e => setContactNo(e.target.value)}
 
