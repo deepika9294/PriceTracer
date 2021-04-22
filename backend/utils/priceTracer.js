@@ -127,8 +127,19 @@ const extractPrice =  async(website, url, thresholdPrice, productName, pid, jobs
         Nightmare.action('EBay', function(done) {
             this.evaluate_now(() => {
                 try{
+                    var classes = ["#prcIsum", "#prcIsum_bidPrice"];
 
-                    const priceString = document.querySelector("#prcIsum").innerText || "000zero";
+                    for(var i=0; i<classes.length; i++){
+                        try{
+                            var priceString =  document.querySelector(classes[i]).innerText;
+                            break;
+                        }
+                        catch(error){
+                            priceString = null;
+                        }
+                        
+                    }
+                    //const priceString = document.querySelector("#prcIsum").innerText || "000zero";
                     const priceNumber =  Number(priceString.replace(/[^0-9.-]+/g, "" ));  
                    
                     return {
@@ -177,7 +188,23 @@ const extractPrice =  async(website, url, thresholdPrice, productName, pid, jobs
         Nightmare.action('Amazon', function(done) {
             this.evaluate_now(() => {
                 try{
-                    const priceString =(document.getElementById("priceblock_dealprice")|| document.getElementById("atfRedesign_priceblock_priceToPay") || document.getElementById("priceblock_ourprice")).innerText || 0;
+                    var classes= ["priceblock_dealprice", "atfRedesign_priceblock_priceToPay", "priceblock_ourprice", "a-price-whole", "priceblock_saleprice"];
+
+                    for(var i = 0; i< classes.length; i++){
+                        try{
+                            var priceString = document.getElementById(classes[i]).innerText;
+                            break;
+                        }
+                        catch(err){
+                            priceString = "null";
+                        }
+                    }
+
+                    if(priceString.includes("-")){
+                        priceString = priceString.split("-")[0];
+                    }
+
+                    //const priceString =(document.getElementById("priceblock_dealprice")|| document.getElementById("atfRedesign_priceblock_priceToPay") || document.getElementById("priceblock_ourprice")).innerText || 0;
                     const priceNumber =  Number(priceString.replace(/[^0-9.-]+/g, "" ));
                     return {
                         price: priceNumber,

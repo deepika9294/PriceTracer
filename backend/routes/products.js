@@ -37,9 +37,14 @@ router.route('/addproduct').post( async(req, res) => {
     }
 
     //const productDetails = await fetchProdDetails(productURL);
-    const {productName, productPrice, productimgURL} = await fetchDetails(website, productURL);
-    
-    
+    try{
+        var {productName, productPrice, productimgURL} = await fetchDetails(website, productURL);
+    }
+    catch(error){
+        console.log("error while fetching data sending error to user");
+        return res.json({success : false, msg : 'Couldnot add product , try again later !'});
+    }
+  
 
     //need to modify it later with populate
     await User.findOne({email : email}).then(user => {
