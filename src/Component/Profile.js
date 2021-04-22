@@ -22,14 +22,13 @@ export default class Profile extends Component {
            await axios
             .get( `${BACKEND}/users/getuser/${id}`)
             .then(res => {
-                console.log(res.data)
+                // console.log(res.data)
                
                 this.setState({
                     user : res.data,
                     reload: true
                 })
-                // console.log("user" )
-                // console.log(this.state.user);
+               
             })
             .catch(err => console.log("failed to fetch products"));
             
