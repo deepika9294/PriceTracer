@@ -3,6 +3,8 @@ import './ProductCard.css'
 import axios from 'axios';
 import {BACKEND} from '../config';
 import {Alert} from 'react-bootstrap';
+import { Link} from "react-router-dom";
+import { Button } from "reactstrap";
 
 class ProductCard extends Component {
     constructor(props) {
@@ -12,6 +14,7 @@ class ProductCard extends Component {
         }
     }
 
+    // onGetTrends = (e) => this.props.history.push("/graphs");
     onDelete = (e)=>{
         const user = {
             email : localStorage.getItem('email'),
@@ -39,6 +42,17 @@ class ProductCard extends Component {
 
     onRecommend = (e) =>{
         this.props.onRecommendHandle(this.props.product.product_id);
+       
+    
+    }
+
+    onGetTrends = (e)=>{
+        const user = {
+            email : localStorage.getItem('email'),
+            name : localStorage.getItem('name'),
+            product_id : this.props.product.product_id,
+        };
+        console.log("HI," + user.product_id);
     }
 
     onClose = (e) =>{
@@ -73,7 +87,15 @@ class ProductCard extends Component {
                                     
                                     <button onClick={this.onRecommend} className="btn btn-outline-success btn-md float-right">Get Recommendation</button>
                                     <button onClick={this.onDelete} className="btn btn-outline-danger btn-md float-right">Delete</button>
-                                    <button className="btn btn-outline-success btn-md float-right">Get Price Trends</button>
+                                    <Link to={{
+                                         pathname: `/graphs/${this.props.product.product_id}`,
+                                        }}
+                                    >
+                                    <Button color="link">
+                                    <span>Get trends</span>
+                                    </Button>
+                                    </Link>
+                                    {/* <button onClick ={this.onGetTrends} className="btn btn-outline-success btn-md float-right">Get Price Trends</button> */}
                                 </div>
                             </div>
                         </div>

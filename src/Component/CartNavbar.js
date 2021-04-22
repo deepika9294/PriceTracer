@@ -9,22 +9,22 @@ import { Button } from "reactstrap";
 class CartNavbar extends Component{
     render(){
         return(
-            <div style={{width : '100%'}}>
-                <Navbar bg="dark" variant="dark" style={{marginTop: '100px'}}>
+            <div >
+                <Navbar className="mynav">
                     {/* <Navbar.Brand style={{fontSize: '20px', color : 'red'}} href="/home">My Cart</Navbar.Brand> */}
-                    <Link to="/home">
-                            <Button color="link">
+                    <Link id="btn-linkl"  to="/home">
+                            {/* <Button color="link"> */}
                             <span>My Cart</span>
-                            </Button>
+                            {/* </Button> */}
                         </Link>
-                    <Nav className="ml-auto">
-                        <Link to="/products/addproduct">
-                                <Button color="link">
+                    {/* <Nav className="ml-auto"> */}
+                        <Link id="btn-linkl"  to="/products/addproduct">
+                                {/* <Button   color="link"> */}
                                 <span>Add Product</span>
-                                </Button>
+                                {/* </Button> */}
                          </Link>
                         {/* <Nav.Link style={{fontSize: '20px', color : 'red'}} href="/products/addproduct">Add Products</Nav.Link> */}
-                    </Nav>  
+                    {/* </Nav>   */}
                 </Navbar> 
             </div>
         )
