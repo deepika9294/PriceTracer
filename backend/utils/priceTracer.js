@@ -14,9 +14,8 @@ function priceComparator(currentPrice, threshold){
 }
 
 const comparator = async(parsedPrice, thresholdPrice, pid, jobs_array) =>{
+
     if(priceComparator(parsedPrice, thresholdPrice)){
-        
-      
         console.log("BUY !!");
         if(jobs_array.length !=0 ){
             jobs_array.pop().job.stop();
@@ -111,7 +110,7 @@ const extractPrice =  async(website, url, thresholdPrice, productName, pid, jobs
             this.evaluate_now(() => {
                 try{
 
-                    const priceString =document.querySelector('._1V3w').innerText;
+                    const priceString =  document.querySelector('._1V3w').innerText;
                     const priceNumber =  Number(priceString.replace(/[^0-9.-]+/g, "" ));  
                    
                     return {
@@ -219,7 +218,7 @@ const extractPrice =  async(website, url, thresholdPrice, productName, pid, jobs
         }
         else if(website == "www.ebay.com"){
            
-            const x = await Nightmare()
+            Nightmare()
             .goto(url)
             .EBay()
             .end()
@@ -227,11 +226,11 @@ const extractPrice =  async(website, url, thresholdPrice, productName, pid, jobs
                 await comparator(EBay.price, thresholdPrice, pid, jobs_array);
             })
 
-            return x;
+            
         }
         else if(website == "paytmmall.com"){
            
-            const x = await Nightmare()
+            Nightmare()
             .goto(url)
             .Paytmmall()
             .end()
@@ -239,7 +238,6 @@ const extractPrice =  async(website, url, thresholdPrice, productName, pid, jobs
                 await comparator(Paytmmall.price, thresholdPrice, pid, jobs_array);
             })
 
-            return x;
         }   
     } 
     catch (e) {
