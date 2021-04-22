@@ -6,7 +6,7 @@ export class About extends Component {
             <div className="abt">
                 <h1>About The Website</h1>
 
-                <div style={{fontSize : '1em'}}> 
+                <div style={{fontSize : '1em', marginLeft:'10px'}}> 
                     This webiste - <u>Price Tracer</u> helps users by notifying them
                     by Email (given by thne at the time of Registration) of fall in
                     price of a product that they have registered for tracking.

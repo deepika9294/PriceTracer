@@ -14,7 +14,7 @@ class RecProductCard extends Component {
             <div className="container-fluid">
                 <div className="row">
                     <div className="col-12 mt-3">
-                        <div className="card">
+                        <div className="card rec">
                             <div className="card-horizontal">
                                
                                 <div className="card-body">

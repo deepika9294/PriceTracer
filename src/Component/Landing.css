@@ -189,3 +189,11 @@ form{
 .container{
   margin: 0 auto;
 }
+.alert-danger {
+  color: #ffc107;
+  background-color: transparent;
+  border-color: transparent;
+}
+.auth-inner p{
+  margin-left: 10px;
+}
