@@ -25,18 +25,27 @@ const fetch = async (website, query, price) =>{
     
     const urls = await fetchURL(searchURL, website);
     
+    if(urls === undefined){
+        console.log("navigation error");
+        return [];
+    }
+
     console.log("length :" , urls.length);
         
     var finalisedURL = [];
     
     for(var i =0; i< urls.length; i++){
-    
-        const details = await fetchDetails(website, urls[i]);
         
+        var name;
+        const details = await fetchDetails(website, urls[i]);
+        if(details.productName === undefined){
+            name = null;  
+        }
+        name = details.productName;
         if(productPrice < price){
             finalisedURL.push({
                 url : urls[i],
-                name : details.productName || query,
+                name : name || query,
                 price : details.productPrice,
             });
         }

@@ -34,16 +34,24 @@ const fetchDetails = async (website, url) => {
               
                     const priceString = document.querySelector("._30jeq3._16Jk6d").innerText || "000zero";
                     const pname = document.querySelector(".B_NuCI").innerText|| "Name";
-                    var image = document.querySelector("._2r_T1I._396QI4").src;
-                    if(!image){
-                        image = document.querySelector("._396cs4._2amPTt._3qGmMb._3exPp9").src ;
+                   
+                    var image2 = document.querySelector("._396cs4._2amPTt._3qGmMb._3exPp9").src ;
+                    if(image2){
+                        return {
+                            pString : priceString,
+                            name : pname,
+                            image : image2 ,
+                        }
                     }
-
+                    const image = document.querySelector("._2r_T1I._396QI4").src;
                     return {
                         pString : priceString,
                         name : pname,
                         image : image,
                     }
+
+
+                   
                    
                 
                 }catch(e){
@@ -161,7 +169,7 @@ const fetchDetails = async (website, url) => {
             .Flipkart()
             .end()
             .then(Flipkart => {
-                console.log(Flipkart.pString)
+              
                 const priceNumber =  Number(Flipkart.pString.replace(/[^0-9.-]+/g, "" ));
                
                 
