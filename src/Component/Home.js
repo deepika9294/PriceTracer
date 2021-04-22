@@ -3,6 +3,7 @@ import React, {Component} from "react";
 import {BACKEND} from '../config';
 import CartNavbar from './CartNavbar';
 import ProductCard from './ProductCard';
+// import {Redirect} from 'react-router-dom';
 
 class Home extends Component{
     constructor(props) {
@@ -18,8 +19,13 @@ class Home extends Component{
         this.setState({
             reload: dataFromChild,
         })
-        this.componentDidMount();
+        window.location.reload();
+        //this.componentDidMount();
+    }
 
+    onRecommendHandle = (dataFromChild) =>{
+        
+        this.props.history.push(`/products/getRecommendation?product_id=${dataFromChild}`); 
     }
 
     componentDidMount(){
@@ -36,7 +42,7 @@ class Home extends Component{
             .post( BACKEND + '/products/getproducts', user)
             .then(res => {
                 const product_list = (res.data.value).map( (product , index) =>{
-                    return (<ProductCard product={product} onDeleteHandle = {this.onDeleteHandle} key={index}></ProductCard>)
+                    return (<ProductCard product={product} onRecommendHandle={this.onRecommendHandle} onDeleteHandle = {this.onDeleteHandle} key={index}></ProductCard>)
                 })      
                 this.setState({
                     products : product_list
@@ -49,6 +55,7 @@ class Home extends Component{
 
     render(){
 
+        
         if(this.state.products && this.state.length !== 0){
             return (
                 <div className="container">
@@ -64,6 +71,9 @@ class Home extends Component{
                 </div>
             )
         }
+        
+       
+        
     }
    
 }

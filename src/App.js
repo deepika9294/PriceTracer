@@ -15,6 +15,7 @@ import Header from "./Component/Header";
 import Land from './Component/Land';
 import ProtectedRoute from './Component/ProtectedRoute';
 import About from './Component/About';
+import RecProducts from './Component/RecProducts';
 import Graphs from './Component/Graphs';
 import Profile from './Component/Profile';
 import Unauthorised from './Component/Unauthorised';
@@ -72,6 +73,7 @@ function App() {
          <ProtectedRoute exact path='/home' user={isUserValid} component={Home} />
          <ProtectedRoute exact path="/products/addproduct" user={isUserValid} component={AddProduct} />
          <ProtectedRoute exact path="/about" user={isUserValid} component={About} />
+         <ProtectedRoute exact path="/products/getRecommendation" user={isUserValid} component={RecProducts}/>
          <ProtectedRoute exact path="/graphs/:id" user={isUserValid} component={graphsWithId} />
          <ProtectedRoute exact path="/profile" user={isUserValid} component={Profile} />
 
