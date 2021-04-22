@@ -1,7 +1,6 @@
 .card-horizontal {
     display: flex;
     flex: 1 1 auto;
-    
 }
 .card{
     height : auto;
@@ -10,7 +9,6 @@
     font-size: large;
     font-weight: 700;
     overflow: hidden;
-    height: 375px;
     border-bottom-right-radius: 80px;
     /* border-bottom-left-radius: 52px; */
     border: #524eb4 solid 6px;
@@ -23,9 +21,9 @@
 }
 img{
     height: 340px;
-    /* width: fit-content;     */
     margin: 12px 10px;
-    
+    /* height: 400px;
+    width:  400px; */
     max-width: 320px;
 }
 

@@ -14,6 +14,12 @@ router.get('/', auth, async(req, res) => {
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
+router.route("/getuser/:id").get((req, res) => {
+  User.findOne({_id: req.params.id})
+    .then((data) => res.json(data))
+    .catch((err) => res.status(400).json("Error: " + err));
+});
+
 router.route('/adduser').post((req,res) => {
    
     const newUser = new User();
@@ -46,7 +52,7 @@ router.route('/verify').get(async (req,res) => {
             "userVerified": true
           }
         };
-        const options = { returnNewDocument: true };
+        const options = { returnNewDocument: true , useFindAndModify: false};
 
         await User.findOneAndUpdate(query,update, options)
           .then(user => {
