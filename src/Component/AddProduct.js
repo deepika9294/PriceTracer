@@ -121,7 +121,7 @@ class AddProduct extends Component{
                                 type="number" 
                                 name="thresholdPrice"
                                 placeholder="Enter product price" 
-                                value={this.state.threadholdPrice} 
+                                value={this.state.thresholdPrice} 
                                 onChange={this.onChangethresholdPrice}
                                 required
                             />

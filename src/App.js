@@ -19,7 +19,6 @@ import RecProducts from './Component/RecProducts';
 import Graphs from './Component/Graphs';
 import Profile from './Component/Profile';
 
-
 function App() {
 
   
