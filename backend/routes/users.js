@@ -33,26 +33,33 @@ router.route('/adduser').post((req,res) => {
 router.route('/verify').get(async (req,res) => {
   console.log(req.protocol+":/"+req.get('host'));
   const host="http://localhost:5000";
-  const loginLink = "http://localhost:3000/signin"
+  const loginLink = "http://localhost:3000"
   if((req.protocol+"://"+req.get('host'))==host)
   {
       console.log("Domain is matched. Information is from Authentic email");
       if(req.query.id==rand)
       {
         console.log("email is verified");
-        await User.findOne({email : req.query.email})
+        const query = {"email": req.query.email}
+        const update = {
+          "$set": {
+            "userVerified": true
+          }
+        };
+        const options = { returnNewDocument: true };
+
+        await User.findOneAndUpdate(query,update, options)
           .then(user => {
-            user.name,
-            user.email,
-            user.contactNo,
-            user.password,
-            user.userVerified = true;
-            user.save()
-              .then(() => res.json('User is verified!'))
-              .catch(err => res.status(400).json('Error: ' + err));
+            if(user) {
+              console.log("Verified");
+              res.end("<h1>Email is been Successfully verified, <a href="+loginLink+">Click here to login</a><h1>")
+            }
+            else {
+              console.log("No such user was found")
+            }
           })
           .catch(err => res.status(400).json('Error: ' + err));
-        res.end("<h1>Email is been Successfully verified, <a href="+loginLink+">Click here to login</a><h1>");
+        // res.end();
       }
       else
       {
