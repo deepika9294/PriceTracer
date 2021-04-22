@@ -8,7 +8,7 @@ const styles = {
   fontFamily: "sans-serif",
   textAlign: "center",
   background: "white",
-  margin: "20px"
+  width:"70%",
 };
 
 // var data = [];
@@ -54,14 +54,14 @@ function Graphs (props) {
     return isLoaded ? (
         <div className="container" style={styles}>
             <div className="row align-items-start">
-                <div className="col">
+                <div className="graph">
                 <h1>Bar Chart Visualisation</h1><br></br>
                     <BarChart width={500} height={350} data={data}>
                     <XAxis label="Timestamp in increasing order" dataKey="timestamp" tickFormatter={timeStr => moment(timeStr).format('D')}  tick={false} />
                     <YAxis dataKey="price" />
                     <Tooltip
                         wrapperStyle={{ backgroundColor: "red" }}
-                        labelStyle={{ color: "green" }}
+                        labelStyle={{ color: "#635bdf" }}
                         itemStyle={{ color: "cyan" }}
                         //price
                         formatter={function(value, name) {
@@ -77,14 +77,14 @@ function Graphs (props) {
                 </div>
 
 
-                <div className="col">
+                <div className="graph">
                 <h1>Line Chart Visualisation</h1><br></br>
                     <LineChart width={500} height={350} data={data}>
                     <XAxis label="Timestamp in increasing order" dataKey="timestamp" tickFormatter={timeStr => moment(timeStr).format('D')}  tick={false} />
                     <YAxis dataKey="price" />
                     <Tooltip
                         wrapperStyle={{ backgroundColor: "red" }}
-                        labelStyle={{ color: "green" }}
+                        labelStyle={{ color: "#635bdf" }}
                         itemStyle={{ color: "cyan" }}
                         formatter={function(value, name) {
                         return `${value}`;
