@@ -7,6 +7,7 @@ body{
   background-size: 80%;
 }
 
+
 h2,h3,h4,h5,h6,label,span {
   font-weight: 500;
   font-family: 'Fira Sans', sans-serif;
@@ -169,4 +170,19 @@ form{
     /* font-weight: bolder; */
     text-decoration: none;
   }
-  
+  .graph{
+    width: 100%;   
+    background-color: #7198f84a; 
+    margin: 10px auto;
+  }
+  .graph *{
+    color: #ff9800;
+    margin: 0px auto;
+}
+.graph > h1{
+  font-size: xx-large;
+  padding: 0.2em;
+}
+.container{
+  margin: 0 auto;
+}
