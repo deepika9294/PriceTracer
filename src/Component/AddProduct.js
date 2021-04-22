@@ -85,10 +85,7 @@ class AddProduct extends Component{
                                             </Alert> : "" }
                         {/* <h2 style={{color : 'red'}}><u>Add Product</u></h2><br/> */}
                         <div className={"form-group"}>
-                            <Alert style={{width : '90%'}} variant="danger">
-                                <span><i className="info circle large icon"></i>product Title is used for Recommending products, please enter valid and legitimate data to get accurate recommendation results
-                                </span>
-                            </Alert>
+                            
                             <label style={{fontSize : '20px', color: 'white'}} htmlFor="productTitle">Product Title</label><br />
                             <input style={{ width: '90%', height : '40px'}}
                                 id="productTitle" 
@@ -100,6 +97,10 @@ class AddProduct extends Component{
                                 required
                             />
                             <br/>
+                            <Alert style={{width : '90%'}} variant="danger">
+                                <span><i className="info circle large icon"></i>product Title is used for Recommending products, please enter valid and legitimate data to get accurate recommendation results
+                                </span>
+                            </Alert>
                         </div>
                         
                         <div className={"form-group"}>

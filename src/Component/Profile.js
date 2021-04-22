@@ -41,8 +41,8 @@ export default class Profile extends Component {
     render() {
         return this.state.reload? (
             <div className="auth-wrapper">
-            <div className="auth-inner">
-                <h2>Profile</h2>
+            <div className="auth-inner" style={{backgroundColor:'white',fontSize:'x-large'}}>
+                <h1 style={{padding: '3px',fontSize:'xx-large'}}>Profile</h1>
                 <p>Name: {this.state.user.name} </p>
                 <p>Email: {this.state.user.email}</p>
                 <p>Mobile No: {this.state.user.contactNo}</p>
