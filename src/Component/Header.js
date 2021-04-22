@@ -7,8 +7,8 @@ class Header extends Component {
    
     render() { 
         return ( 
-            <div>
-                <Link to="/"><h1>Price Tracer</h1></Link>
+            <div >
+                <Link id="fix" to="/"><h1>Price Tracer</h1></Link>
                 <AuthOptions />
             </div>
          )

@@ -18,6 +18,7 @@ import About from './Component/About';
 import RecProducts from './Component/RecProducts';
 import Graphs from './Component/Graphs';
 import Profile from './Component/Profile';
+import Unauthorised from './Component/Unauthorised';
 
 function App() {
 
@@ -63,6 +64,8 @@ function App() {
         <Route exact path='/' component={Land} />
         <Route exact path="/signin" component={Login} />
         <Route exact path="/signup" component={SignUp} />
+        <Route exact path="/unauthorised" component={Unauthorised} />
+
          {/* <Route exact path="/check" component={Check} /> */}
          
          <ProtectedRoute exact path= '/check' user= {isUserValid} component= {Check} />

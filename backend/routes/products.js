@@ -104,6 +104,12 @@ router.route("/getproductdata/:id").get((req, res) => {
     ProductData.findOne({owner: req.params.id})
       .then((data) => res.json(data))
       .catch((err) => res.status(400).json("Error: " + err));
+  });
+
+router.route("/getproduct/:id").get((req, res) => {
+    Product.findOne({_id: req.params.id})
+    .then((data) => res.json(data))
+    .catch((err) => res.status(400).json("Error: " + err));
 });
   
 
