@@ -14,7 +14,7 @@ class RecProductCard extends Component {
             <div className="container-fluid">
                 <div className="row">
                     <div className="col-12 mt-3">
-                        <div className="card">
+                        <div className="card rec">
                             <div className="card-horizontal">
                                
                                 <div className="card-body">
@@ -25,15 +25,18 @@ class RecProductCard extends Component {
                                         return (
                                             <div key={index}>
                                                 <div className="img-square-wrapper">
-                                                    <img className="" style = {{width : '300px', height: '300px'}}src={mydata.image} alt="product"/>
+                                                    <img className="" style = {{width : '200px', height: '200px'}}src={mydata.image} alt="product"/>
                                                 </div>
+                                                <div className="card-body">
                                                 <span className="card-text">Product Name  - {mydata.name} </span><br/>
                                                 <span className="card-text">Product Price - {this.props.product.website === "www.amazon.com" || this.props.product.website === "www.ebay.com"? "$" : "₹"}
                                                     {mydata.price} 
                                                 </span><br/>
                                                 <span className="card-text">Product URL - <a href={mydata.url}>Know More</a></span>
                                                 <hr/>
-                                            </div>
+                                                </div>
+                                                
+                                             </div> 
                                             
                                         );
                                         
