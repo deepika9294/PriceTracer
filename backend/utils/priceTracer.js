@@ -16,6 +16,7 @@ function priceComparator(currentPrice, threshold){
 const comparator = async(parsedPrice, thresholdPrice, pid, jobs_array) =>{
     if(priceComparator(parsedPrice, thresholdPrice)){
         
+      
         console.log("BUY !!");
         if(jobs_array.length !=0 ){
             jobs_array.pop().job.stop();
@@ -24,6 +25,11 @@ const comparator = async(parsedPrice, thresholdPrice, pid, jobs_array) =>{
         //send email notification
         Product.findOne({_id: pid}).then(product =>{
             if(product){
+
+                if(product.isThresholdReached == true){
+                    return;
+                }
+
                 product.isThresholdReached = true;
                 product.save();
                 
