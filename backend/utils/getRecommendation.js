@@ -17,6 +17,8 @@ const formQueryString = (website, query) =>{
                 return `https://www.flipkart.com/search?q=${params}`;
         case "www.ebay.com":
                 return `https://www.ebay.com/sch/i.html?_nkw=${params}`;
+        case "www.ajio.com":
+                return `https://www.ajio.com/search/?text=${params}`;
     }
 }
 

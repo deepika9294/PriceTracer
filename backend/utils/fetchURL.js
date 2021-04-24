@@ -3,6 +3,26 @@ const nightmare = Nightmare({show:true});
 
 const fetchURL = async (url, website) =>{
     try{
+
+        // Nightmare.action('Ajio', function(done) {
+        //     this.evaluate_now(() => {
+        //         try{
+                    
+        //             var urls = document.querySelectorAll(".rilrtl-products-list__link");
+        //             const links = [];
+        //             urls.forEach((url) =>{
+        //                 links.push(url.href);
+        //             })
+
+        //             return {
+        //                 urls : links.splice(0,2),
+        //             }
+        //         }catch(e){
+        //             throw e
+        //         }        
+        //     }, done)
+        // })
+
         Nightmare.action('EBay', function(done) {
             this.evaluate_now(() => {
                 try{
@@ -185,6 +205,17 @@ const fetchURL = async (url, website) =>{
 
             return x; 
         }
+        // else if(website == "www.ajio.com"){
+        //     const x = Nightmare()
+        //     .goto(url)
+        //     .Ajio()
+        //     .end()
+        //     .then( Ajio => {
+        //         return Ajio.urls;
+        //     })
+
+        //     return x; 
+        // }
     }
     catch(e){
         console.log("error: ", e);

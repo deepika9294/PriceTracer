@@ -4,6 +4,26 @@ const nightmare = Nightmare({show:true})
 const fetchDetails = async (website, url) => {
     
     try {
+        // Nightmare.action('Ajio', function(done) {
+        //     this.evaluate_now(() => {
+        //         try{
+
+        //             const priceString = document.querySelector(".prod-sp").innerText || "000zero";
+        //             const pname = document.querySelector(".prod-name").innerText|| "Name";
+        //             const image = document.querySelector(".rilrtl-lazy-img.img-alignment.zoom-cursor.rilrtl-lazy-img-loaded").src;
+                   
+        //             return {
+        //                 pString : priceString,
+        //                 name : pname,
+        //                 image : image,
+        //             }
+
+        //         }catch(e){
+        //            console.log("error :",  e);
+        //         }    
+                
+        //     }, done)
+        // })
 
         //sorted
         Nightmare.action('EBay', function(done) {
@@ -269,6 +289,30 @@ const fetchDetails = async (website, url) => {
 
             return x;
         }
+        // else if(website == "www.ajio.com"){
+        //     const x = await Nightmare()
+        //     .goto(url)
+        //     .wait()
+        //     .Ajio()
+        //     .end()
+        //     .then(Ajio => {
+    
+        //         const priceNumber =  Number(Ajio.pString.replace(/[^0-9.-]+/g, "" ));
+               
+                
+        //         productName   =  Ajio.name;
+        //         productPrice  =  priceNumber;
+        //         productimgURL =  Ajio.image;
+
+        //         return {
+        //             productName,
+        //             productPrice,
+        //             productimgURL,
+        //         }
+        //     })
+
+        //     return x;
+        // }
      
     } 
     catch (e) {
