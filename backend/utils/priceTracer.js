@@ -13,7 +13,20 @@ function priceComparator(currentPrice, threshold){
     return false;
 }
 
+async function getThreshold(pid){
+    return await Product.findOne({_id: pid}).then(product =>{
+        if(product){
+            return product.thresholdPrice;
+        }
+    })
+}
+
 const comparator = async(parsedPrice, thresholdPrice, pid, jobs_array) =>{
+
+    const newThresholdPrice = await getThreshold(pid);
+    if(newThresholdPrice !== undefined){
+        thresholdPrice = newThresholdPrice;
+    }
 
     if(priceComparator(parsedPrice, thresholdPrice)){
         console.log("BUY !!");
@@ -105,6 +118,24 @@ const comparator = async(parsedPrice, thresholdPrice, pid, jobs_array) =>{
  
 const extractPrice =  async(website, url, thresholdPrice, productName, pid, jobs_array) => {
     try {
+
+        // Nightmare.action('Ajio', function(done) {
+        //     this.evaluate_now(() => {
+        //         try{
+
+        //             const priceString =  document.querySelector(".prod-sp").innerText;
+        //             const priceNumber =  Number(priceString.replace(/[^0-9.-]+/g, "" ));  
+                   
+        //             return {
+        //                 price: priceNumber,
+        //             }
+
+        //         }catch(e){
+        //            console.log("error :",  e);
+        //         }    
+                
+        //     }, done)
+        // })
 
         Nightmare.action('Paytmmall', function(done) {
             this.evaluate_now(() => {
@@ -222,7 +253,13 @@ const extractPrice =  async(website, url, thresholdPrice, productName, pid, jobs
                 .Amazon()
                 .end()
                 .then(async (Amazon) => {
-                    await comparator(Amazon.price, thresholdPrice, pid, jobs_array);
+                    try{
+                        await comparator(Amazon.price, thresholdPrice, pid, jobs_array);
+                    }
+                    catch(e){
+                        console.log("error: ", e);
+                    }
+                   
                 })
         }
         else if(website == "www.snapdeal.com"){
@@ -231,7 +268,13 @@ const extractPrice =  async(website, url, thresholdPrice, productName, pid, jobs
             .Snapdeal()
             .end()
             .then(async (Snapdeal) => {
-                await comparator(Snapdeal.price, thresholdPrice, pid, jobs_array);
+                try{
+                    await comparator(Snapdeal.price, thresholdPrice, pid, jobs_array);
+                }
+                catch(e){
+                    console.log("error : ", e);
+                }
+                
             })
         }
         else if(website == "www.flipkart.com"){
@@ -240,7 +283,13 @@ const extractPrice =  async(website, url, thresholdPrice, productName, pid, jobs
             .Flipkart()
             .end()
             .then(async (Flipkart) => {
-                await comparator(Flipkart.price, thresholdPrice, pid, jobs_array);
+                try{
+                    await comparator(Flipkart.price, thresholdPrice, pid, jobs_array);
+                }
+                catch(e){
+                    console.log("error : ", e);
+                }
+                
             })
         }
         else if(website == "www.ebay.com"){
@@ -250,7 +299,13 @@ const extractPrice =  async(website, url, thresholdPrice, productName, pid, jobs
             .EBay()
             .end()
             .then(async (EBay) => {
-                await comparator(EBay.price, thresholdPrice, pid, jobs_array);
+                try{
+                    await comparator(EBay.price, thresholdPrice, pid, jobs_array);
+                }
+                catch(e){
+                    console.log("error : ", e);
+                }
+               
             })
 
             
@@ -262,10 +317,27 @@ const extractPrice =  async(website, url, thresholdPrice, productName, pid, jobs
             .Paytmmall()
             .end()
             .then(async (Paytmmall) => {
-                await comparator(Paytmmall.price, thresholdPrice, pid, jobs_array);
+                try{
+                    await comparator(Paytmmall.price, thresholdPrice, pid, jobs_array);
+                }
+                catch(e){
+                    console.log("error : ", e);
+                }
+                
             })
 
-        }   
+        }
+        // else if(website == "www.ajio.com"){
+           
+        //     Nightmare()
+        //     .goto(url)
+        //     .Ajio()
+        //     .end()
+        //     .then(async (Ajio) => {
+        //         await comparator(Ajio.price, thresholdPrice, pid, jobs_array);
+        //     })
+
+        // }      
     } 
     catch (e) {
         console.log("error :",  e);

@@ -19,6 +19,7 @@ import RecProducts from './Component/RecProducts';
 import Graphs from './Component/Graphs';
 import Profile from './Component/Profile';
 import Unauthorised from './Component/Unauthorised';
+import EditThreshold from './Component/EditThreshold';
 
 function App() {
 
@@ -74,6 +75,7 @@ function App() {
          <ProtectedRoute exact path="/about" user={isUserValid} component={About} />
          <ProtectedRoute exact path="/products/getRecommendation" user={isUserValid} component={RecProducts}/>
          <ProtectedRoute exact path="/graphs/:id" user={isUserValid} component={graphsWithId} />
+         <ProtectedRoute exact path="/products/editThreshold/:id" user={isUserValid} component={EditThreshold} />
          <ProtectedRoute exact path="/profile" user={isUserValid} component={Profile} />
 
          {/* <Route path="/home" component={Home} /> */}
