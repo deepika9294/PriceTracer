@@ -40,20 +40,23 @@ export default class Profile extends Component {
 
     render() {
         return this.state.reload? (
-            <div className="auth-wrapper">
-            <div className="auth-inner" style={{backgroundColor:'white',fontSize:'x-large'}}>
-                <h1 style={{padding: '3px',fontSize:'xx-large'}}>Profile</h1>
-                <p>Name: {this.state.user.name} </p>
-                <p>Email: {this.state.user.email}</p>
-                <p>Mobile No: {this.state.user.contactNo}</p>
-                <p>Mode: {this.state.user.mode}</p>
-                <p>Products Count:{this.state.user.Cart.length}</p>
-
-                </div>
+            
+            <div className ="card container">
+            <div className="card-horizontal">
+            <div className="card-body">
+                <h2  className="card-title">PROFILE</h2>
+                <hr/>
+                <h3 className="card-text">Name: {this.state.user.name} </h3><br/>
+                <h3 className="card-text">Email: {this.state.user.email}</h3><br/>
+                <h3 className="card-text">Mobile No: {this.state.user.contactNo}</h3><br/>
+                <h3 className="card-text">Notification Mode: {this.state.user.mode.toUpperCase()}</h3><br/>
+                <h3 className="card-text">Products Count: {this.state.user.Cart.length}</h3><br/>
 
             </div>
+            </div>
+            </div>
         ): (<div>
-            Loading
+            <h1>Loading</h1>
         </div>)
     }
 }

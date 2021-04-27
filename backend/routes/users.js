@@ -20,6 +20,18 @@ router.route("/getuser/:id").get((req, res) => {
     .catch((err) => res.status(400).json("Error: " + err));
 });
 
+router.post('/checkuser', async(req, res) => {
+  console.log(req.body)
+  User.findOne({email: req.body.email})
+      .then(user => res.json(user))
+      .catch(err => res.status(400).json('Error: ' + err));
+});
+// router.route("/getuser/:id").get((req, res) => {
+//   User.findOne({_id: req.params.id})
+//     .then((data) => res.json(data))
+//     .catch((err) => res.status(400).json("Error: " + err));
+// });
+
 router.route('/adduser').post((req,res) => {
    
     const newUser = new User();

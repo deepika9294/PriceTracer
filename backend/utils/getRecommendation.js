@@ -17,6 +17,8 @@ const formQueryString = (website, query) =>{
                 return `https://www.flipkart.com/search?q=${params}`;
         case "www.ebay.com":
                 return `https://www.ebay.com/sch/i.html?_nkw=${params}`;
+        case "www.ajio.com":
+                return `https://www.ajio.com/search/?text=${params}`;
     }
 }
 
@@ -39,24 +41,32 @@ const fetch = async (website, query, price, productWebsite) =>{
     for(var i =0; i< urls.length; i++){
         
         
-        var details;
+        
         var name = query;
         try{
-            details = await fetchDetails(website, urls[i]);
+            var details = await fetchDetails(website, urls[i]);
             name = details.productName;
         }
         catch(e){
             name = null;
         }
-       
-        if(productPrice < price){
-            finalisedURL.push({
-                url : urls[i],
-                name : name,
-                price : details.productPrice,
-                image : details.productimgURL,
-            });
+        
+        console.log(details);
+
+        try{
+            if(details.productPrice < price){
+                finalisedURL.push({
+                    url : urls[i],
+                    name : name,
+                    price : details.productPrice,
+                    image : details.productimgURL,
+                });
+            }
         }
+        catch(e){
+            console.log("price fetching error !");
+        }
+       
         
         console.log("final urls :", finalisedURL);
           

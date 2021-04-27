@@ -51,16 +51,25 @@ class AddProduct extends Component{
 		.then(res => res.data)
         .catch(err => console.log(err));
 
-        if(res_data.success === true){
+        if(res_data && res_data.success === true){
         
             this.props.history.push(`/home`);
 
         }
         else{
-            this.setState({
-                msg : res_data.msg,
-                variant : "danger",
-            })
+            if(res_data) {
+                this.setState({
+                    msg : res_data.msg,
+                    variant : "danger",
+                })
+            }
+            else {
+                this.setState({
+                    msg : "Enter Valid link",
+                    variant : "danger",
+                })
+            }
+           
         }
 
         
@@ -122,7 +131,7 @@ class AddProduct extends Component{
                                 type="number" 
                                 name="thresholdPrice"
                                 placeholder="Enter product price" 
-                                value={this.state.threadholdPrice} 
+                                value={this.state.thresholdPrice} 
                                 onChange={this.onChangethresholdPrice}
                                 required
                             />
