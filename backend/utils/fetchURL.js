@@ -3,6 +3,26 @@ const nightmare = Nightmare({show:true});
 
 const fetchURL = async (url, website) =>{
     try{
+
+        // Nightmare.action('Ajio', function(done) {
+        //     this.evaluate_now(() => {
+        //         try{
+                    
+        //             var urls = document.querySelectorAll(".rilrtl-products-list__link");
+        //             const links = [];
+        //             urls.forEach((url) =>{
+        //                 links.push(url.href);
+        //             })
+
+        //             return {
+        //                 urls : links.splice(0,2),
+        //             }
+        //         }catch(e){
+        //             throw e
+        //         }        
+        //     }, done)
+        // })
+
         Nightmare.action('EBay', function(done) {
             this.evaluate_now(() => {
                 try{
@@ -56,7 +76,7 @@ const fetchURL = async (url, website) =>{
                             })
 
                             return {
-                                urls : links.splice(0,2),
+                                urls : links.splice(0,3),
                             }
                         }
                     }
@@ -99,12 +119,13 @@ const fetchURL = async (url, website) =>{
                     
                     var urls = document.querySelectorAll('a.dp-widget-link.noUdLine.hashAdded');
                     const links = [];
+                  
                     urls.forEach((url) =>{
                         links.push(url.href);
                     })
 
                     return {
-                        urls : links.splice(0,2),
+                        urls : links.splice(0,4),
                     }
                 }catch(e){
                     console.log("error : ", e);
@@ -154,7 +175,21 @@ const fetchURL = async (url, website) =>{
             .Snapdeal()
             .end()
             .then( Snapdeal => {
-                return Snapdeal.urls;
+                const newlinks = [];
+                try{
+                    const links = Snapdeal.urls;
+                    for(var i=0; i <links.length; i++){
+                        if(i %2 === 0){
+                            newlinks.push(links[i]);
+                        }
+                    }
+                }
+                catch(e){
+
+                }
+               
+
+                return newlinks;
             })
 
             return x;
@@ -170,6 +205,17 @@ const fetchURL = async (url, website) =>{
 
             return x; 
         }
+        // else if(website == "www.ajio.com"){
+        //     const x = Nightmare()
+        //     .goto(url)
+        //     .Ajio()
+        //     .end()
+        //     .then( Ajio => {
+        //         return Ajio.urls;
+        //     })
+
+        //     return x; 
+        // }
     }
     catch(e){
         console.log("error: ", e);

@@ -27,7 +27,7 @@ function AuthOptions () {
             {isUserValid? (
                 <>
                 <button className="btn btn-dark mr-2" onClick={logout}>Logout</button>
-                <button className="btn btn-dark mr-2" onClick={home}>Home</button>
+                <button className="btn btn-dark mr-2" onClick={home}>View Cart</button>
                 <button className="btn btn-dark mr-2" onClick={about}>About</button>
                 </>
 

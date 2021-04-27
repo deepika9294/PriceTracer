@@ -37,9 +37,14 @@ router.route('/addproduct').post( async(req, res) => {
     }
 
     //const productDetails = await fetchProdDetails(productURL);
-    const {productName, productPrice, productimgURL} = await fetchDetails(website, productURL);
-    
-    
+    try{
+        var {productName, productPrice, productimgURL} = await fetchDetails(website, productURL);
+    }
+    catch(error){
+        console.log("error while fetching data sending error to user");
+        return res.json({success : false, msg : 'Couldnot add product , try again later !'});
+    }
+  
 
     //need to modify it later with populate
     await User.findOne({email : email}).then(user => {
@@ -195,7 +200,36 @@ router.route('/deleteproduct').post(async (req, res) =>{
             }
         }).catch(err => console.log("error : ", err));    
     })
-})
+});
+
+router.route('/editThreshold').post( async (req, res) => {
+    const pid = req.body.pid;
+    const uid = req.body.uid;
+    const newThreshold = req.body.newThreshold;
+
+    User.findOne({_id : uid}).then(user =>{
+        if(user){
+            Product.findOne({_id : pid}).then(product =>{
+                if(product){
+                    product.thresholdPrice = newThreshold;
+                    product.save().then(()=>{
+                        console.log("threshold price updated");
+                        return res.json({success: true, msg : "successfull !"});
+                    }).catch(()=>{
+                        console.log("couldnot updated the threshold price");
+                        return res.json({success: false, msg : "failed to update !"});
+                    });
+                }
+                else{
+                    return res.json({success: false, msg : "no  such product exsists"}); 
+                }
+            });
+        }   
+        else{
+            return res.json({success: false, msg : "Access Denied"});
+        }
+    })
+});
 
 router.route('/getRecommendation').post( async (req, res) => {
 

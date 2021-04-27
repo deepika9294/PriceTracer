@@ -13,10 +13,22 @@ function priceComparator(currentPrice, threshold){
     return false;
 }
 
+async function getThreshold(pid){
+    return await Product.findOne({_id: pid}).then(product =>{
+        if(product){
+            return product.thresholdPrice;
+        }
+    })
+}
+
 const comparator = async(parsedPrice, thresholdPrice, pid, jobs_array) =>{
+
+    const newThresholdPrice = await getThreshold(pid);
+    if(newThresholdPrice !== undefined){
+        thresholdPrice = newThresholdPrice;
+    }
+
     if(priceComparator(parsedPrice, thresholdPrice)){
-        
-      
         console.log("BUY !!");
         if(jobs_array.length !=0 ){
             jobs_array.pop().job.stop();
@@ -107,11 +119,29 @@ const comparator = async(parsedPrice, thresholdPrice, pid, jobs_array) =>{
 const extractPrice =  async(website, url, thresholdPrice, productName, pid, jobs_array) => {
     try {
 
+        // Nightmare.action('Ajio', function(done) {
+        //     this.evaluate_now(() => {
+        //         try{
+
+        //             const priceString =  document.querySelector(".prod-sp").innerText;
+        //             const priceNumber =  Number(priceString.replace(/[^0-9.-]+/g, "" ));  
+                   
+        //             return {
+        //                 price: priceNumber,
+        //             }
+
+        //         }catch(e){
+        //            console.log("error :",  e);
+        //         }    
+                
+        //     }, done)
+        // })
+
         Nightmare.action('Paytmmall', function(done) {
             this.evaluate_now(() => {
                 try{
 
-                    const priceString =document.querySelector('._1V3w').innerText;
+                    const priceString =  document.querySelector('._1V3w').innerText;
                     const priceNumber =  Number(priceString.replace(/[^0-9.-]+/g, "" ));  
                    
                     return {
@@ -128,8 +158,19 @@ const extractPrice =  async(website, url, thresholdPrice, productName, pid, jobs
         Nightmare.action('EBay', function(done) {
             this.evaluate_now(() => {
                 try{
+                    var classes = ["#prcIsum", "#prcIsum_bidPrice"];
 
-                    const priceString = document.querySelector("#prcIsum").innerText || "000zero";
+                    for(var i=0; i<classes.length; i++){
+                        try{
+                            var priceString =  document.querySelector(classes[i]).innerText;
+                            break;
+                        }
+                        catch(error){
+                            priceString = null;
+                        }
+                        
+                    }
+                    //const priceString = document.querySelector("#prcIsum").innerText || "000zero";
                     const priceNumber =  Number(priceString.replace(/[^0-9.-]+/g, "" ));  
                    
                     return {
@@ -178,7 +219,23 @@ const extractPrice =  async(website, url, thresholdPrice, productName, pid, jobs
         Nightmare.action('Amazon', function(done) {
             this.evaluate_now(() => {
                 try{
-                    const priceString =(document.getElementById("priceblock_dealprice")|| document.getElementById("atfRedesign_priceblock_priceToPay") || document.getElementById("priceblock_ourprice")).innerText || 0;
+                    var classes= ["priceblock_dealprice", "atfRedesign_priceblock_priceToPay", "priceblock_ourprice", "a-price-whole", "priceblock_saleprice"];
+
+                    for(var i = 0; i< classes.length; i++){
+                        try{
+                            var priceString = document.getElementById(classes[i]).innerText;
+                            break;
+                        }
+                        catch(err){
+                            priceString = "null";
+                        }
+                    }
+
+                    if(priceString.includes("-")){
+                        priceString = priceString.split("-")[0];
+                    }
+
+                    //const priceString =(document.getElementById("priceblock_dealprice")|| document.getElementById("atfRedesign_priceblock_priceToPay") || document.getElementById("priceblock_ourprice")).innerText || 0;
                     const priceNumber =  Number(priceString.replace(/[^0-9.-]+/g, "" ));
                     return {
                         price: priceNumber,
@@ -196,7 +253,13 @@ const extractPrice =  async(website, url, thresholdPrice, productName, pid, jobs
                 .Amazon()
                 .end()
                 .then(async (Amazon) => {
-                    await comparator(Amazon.price, thresholdPrice, pid, jobs_array);
+                    try{
+                        await comparator(Amazon.price, thresholdPrice, pid, jobs_array);
+                    }
+                    catch(e){
+                        console.log("error: ", e);
+                    }
+                   
                 })
         }
         else if(website == "www.snapdeal.com"){
@@ -205,7 +268,13 @@ const extractPrice =  async(website, url, thresholdPrice, productName, pid, jobs
             .Snapdeal()
             .end()
             .then(async (Snapdeal) => {
-                await comparator(Snapdeal.price, thresholdPrice, pid, jobs_array);
+                try{
+                    await comparator(Snapdeal.price, thresholdPrice, pid, jobs_array);
+                }
+                catch(e){
+                    console.log("error : ", e);
+                }
+                
             })
         }
         else if(website == "www.flipkart.com"){
@@ -214,33 +283,61 @@ const extractPrice =  async(website, url, thresholdPrice, productName, pid, jobs
             .Flipkart()
             .end()
             .then(async (Flipkart) => {
-                await comparator(Flipkart.price, thresholdPrice, pid, jobs_array);
+                try{
+                    await comparator(Flipkart.price, thresholdPrice, pid, jobs_array);
+                }
+                catch(e){
+                    console.log("error : ", e);
+                }
+                
             })
         }
         else if(website == "www.ebay.com"){
            
-            const x = await Nightmare()
+            Nightmare()
             .goto(url)
             .EBay()
             .end()
             .then(async (EBay) => {
-                await comparator(EBay.price, thresholdPrice, pid, jobs_array);
+                try{
+                    await comparator(EBay.price, thresholdPrice, pid, jobs_array);
+                }
+                catch(e){
+                    console.log("error : ", e);
+                }
+               
             })
 
-            return x;
+            
         }
         else if(website == "paytmmall.com"){
            
-            const x = await Nightmare()
+            Nightmare()
             .goto(url)
             .Paytmmall()
             .end()
             .then(async (Paytmmall) => {
-                await comparator(Paytmmall.price, thresholdPrice, pid, jobs_array);
+                try{
+                    await comparator(Paytmmall.price, thresholdPrice, pid, jobs_array);
+                }
+                catch(e){
+                    console.log("error : ", e);
+                }
+                
             })
 
-            return x;
-        }   
+        }
+        // else if(website == "www.ajio.com"){
+           
+        //     Nightmare()
+        //     .goto(url)
+        //     .Ajio()
+        //     .end()
+        //     .then(async (Ajio) => {
+        //         await comparator(Ajio.price, thresholdPrice, pid, jobs_array);
+        //     })
+
+        // }      
     } 
     catch (e) {
         console.log("error :",  e);

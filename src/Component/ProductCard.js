@@ -42,7 +42,6 @@ class ProductCard extends Component {
 
     onRecommend = (e) =>{
         this.props.onRecommendHandle(this.props.product.product_id);
-       
     
     }
 
@@ -93,6 +92,19 @@ class ProductCard extends Component {
                                     >
                                     <Button style={{width: 'auto'}} className="btn btn-outline-success btn-md">
                                     <span>Get trends</span>
+                                    </Button>
+                                    </Link>
+
+                                    <Link to={{
+                                         pathname: `/products/editThreshold/${this.props.product.product_id}`,
+                                         state : {
+                                            productURL : this.props.product.productURL,
+                                            thresholdPrice : this.props.product.thresholdPrice,
+                                         },
+                                        }}
+                                    >
+                                    <Button style={{width: 'auto'}} className="btn btn-outline-success btn-md">
+                                    <span>Edit Threshold Price</span>
                                     </Button>
                                     </Link>
                                     {/* <button onClick ={this.onGetTrends} className="btn btn-outline-success btn-md float-right">Get Price Trends</button> */}
