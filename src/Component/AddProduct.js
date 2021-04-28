@@ -128,6 +128,7 @@ class AddProduct extends Component{
                             <input style={{ width: '90%', height : '40px'}} 
                                 id="price" 
                                 type="number" 
+                                min="0"
                                 name="thresholdPrice"
                                 placeholder="Enter product price" 
                                 value={this.state.thresholdPrice} 
