@@ -41,10 +41,12 @@ router.route('/adduser').post((req,res) => {
     newUser.contactNo = req.body.contactNo;
     rand=Math.floor((Math.random() * 100) + 54);
 
-    sendMail(rand,newUser.email);
     
     newUser.save()
-        .then(() => res.json("Please verify the account to login"))
+        .then(() =>  {
+          sendMail(rand,newUser.email)
+          res.json("Please verify the account to login")
+        })
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
