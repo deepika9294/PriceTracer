@@ -35,6 +35,11 @@ router.route('/addproduct').post( async(req, res) => {
     if(!process.env.WEBSITES.includes(website)){
         return res.json({success: false, msg : "Webiste not supported ! "});
     }
+    console.log("akankshas");
+    if(title.match(/^[0-9]+$/)){
+        return res.json({success : false, msg : "Enter valid product Title"});
+    }
+    console.log("yash");
 
     //const productDetails = await fetchProdDetails(productURL);
     try{
@@ -86,7 +91,7 @@ router.route('/addproduct').post( async(req, res) => {
                         const data = await getRecommendation(website, title, Number(productPrice) );
                         console.log("data :", data);
 
-                        Product.findOne({_id : pid}).then(product =>{
+                        Product.findOne({_id : newProduct._id}).then(product =>{
                             if(product){
                                 const newRec = new RecProduct();
                                 newRec.owner = newProduct._id;
