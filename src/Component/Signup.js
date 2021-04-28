@@ -70,6 +70,7 @@ function Signup () {
                     <div className="form-group">
                         <label>Name</label>
                         <input type="text" className="form-control" placeholder="Full Name" name="name" 
+                        minLength="3"
                         required
                         onChange={e => setName(e.target.value)}
                         />
@@ -98,6 +99,7 @@ function Signup () {
                     <div className="form-group">
                         <label>Password</label>
                         <input type="text" className="form-control" placeholder="Enter password" name="password"
+                        minLength="8"
                         required
                         onChange={e => setPassword(e.target.value)}
 
