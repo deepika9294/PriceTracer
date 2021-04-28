@@ -85,12 +85,18 @@ router.route('/addproduct').post( async(req, res) => {
                     (async ()=>{
                         const data = await getRecommendation(website, title, Number(productPrice) );
                         console.log("data :", data);
-                        const newRec = new RecProduct();
-                        newRec.owner = newProduct._id;
-                        newRec.data = data;
-                        newRec.save().then(()=> console.log("saved")).catch((err)=> console.log("save error : ",  err));
-                        newProduct.recProducts = newRec._id;
-                        newProduct.save().then(()=> console.log("saved")).catch((err)=> console.log("save error : ",  err));;
+
+                        Product.findOne({_id : pid}).then(product =>{
+                            if(product){
+                                const newRec = new RecProduct();
+                                newRec.owner = newProduct._id;
+                                newRec.data = data;
+                                newRec.save().then(()=> console.log("saved")).catch((err)=> console.log("save error : ",  err));
+                                newProduct.recProducts = newRec._id;
+                                newProduct.save().then(()=> console.log("saved")).catch((err)=> console.log("save error : ",  err));
+                            }
+                        })
+                       
     
                     })()
 
