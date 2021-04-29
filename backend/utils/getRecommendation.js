@@ -7,18 +7,12 @@ const formQueryString = (website, query) =>{
     switch(website){
         case "paytmmall.com":
                 return `https://paytmmall.com/shop/search?q=${params}&from=organic`;
-        case "www.amazon.com":
-                return `https://www.amazon.com/s?k=${params}&ref=nb_sb_noss_2`;
         case "www.amazon.in" :
                 return `https://www.amazon.in/s?k=${params}&ref=nb_sb_noss_2`;
         case "www.snapdeal.com":
                 return `https://www.snapdeal.com/search?keyword=${params}&sort=rlvncy`;
         case "www.flipkart.com":
                 return `https://www.flipkart.com/search?q=${params}`;
-        case "www.ebay.com":
-                return `https://www.ebay.com/sch/i.html?_nkw=${params}`;
-        case "www.ajio.com":
-                return `https://www.ajio.com/search/?text=${params}`;
     }
 }
 

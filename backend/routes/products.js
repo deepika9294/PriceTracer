@@ -35,6 +35,11 @@ router.route('/addproduct').post( async(req, res) => {
     if(!process.env.WEBSITES.includes(website)){
         return res.json({success: false, msg : "Webiste not supported ! "});
     }
+    console.log("akankshas");
+    if(title.match(/^[0-9]+$/)){
+        return res.json({success : false, msg : "Enter valid product Title"});
+    }
+    console.log("yash");
 
     //const productDetails = await fetchProdDetails(productURL);
     try{
@@ -85,12 +90,18 @@ router.route('/addproduct').post( async(req, res) => {
                     (async ()=>{
                         const data = await getRecommendation(website, title, Number(productPrice) );
                         console.log("data :", data);
-                        const newRec = new RecProduct();
-                        newRec.owner = newProduct._id;
-                        newRec.data = data;
-                        newRec.save().then(()=> console.log("saved")).catch((err)=> console.log("save error : ",  err));
-                        newProduct.recProducts = newRec._id;
-                        newProduct.save().then(()=> console.log("saved")).catch((err)=> console.log("save error : ",  err));;
+
+                        Product.findOne({_id : newProduct._id}).then(product =>{
+                            if(product){
+                                const newRec = new RecProduct();
+                                newRec.owner = newProduct._id;
+                                newRec.data = data;
+                                newRec.save().then(()=> console.log("saved")).catch((err)=> console.log("save error : ",  err));
+                                newProduct.recProducts = newRec._id;
+                                newProduct.save().then(()=> console.log("saved")).catch((err)=> console.log("save error : ",  err));
+                            }
+                        })
+                       
     
                     })()
 

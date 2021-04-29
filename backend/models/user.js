@@ -6,6 +6,8 @@ const userSchema = new mongoose.Schema({
     name : {
         type : String,
         required : true,
+        minlength : 3,
+
     },
 
     email : {
@@ -21,6 +23,8 @@ const userSchema = new mongoose.Schema({
 
         type : String,
         required : true,
+        minlength : 8,
+
     },
     contactNo : {
 
@@ -28,8 +32,10 @@ const userSchema = new mongoose.Schema({
         maxlength : 10,
         minlength : 10,
         required : true,
+
     },
     userVerified : {
+        
         type : Boolean,
         default: false,
         required : true,
