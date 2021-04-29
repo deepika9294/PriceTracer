@@ -101,6 +101,7 @@ class AddProduct extends Component{
                                 type="text"
                                 name="productTitle" 
                                 placeholder="Enter Title" 
+                                pattern=".{5,50}" title="Try to enter specific title between 5 -50 characters"
                                 value={this.state.productTitle} 
                                 onChange={this.onChangeProductTitle}
                                 required
@@ -119,6 +120,7 @@ class AddProduct extends Component{
                                 type="text"
                                 name="productURL" 
                                 placeholder="Enter URL" 
+                                pattern=".{8,}" title="Please enter valid URL with 8 or more characters"
                                 value={this.state.productURL} 
                                 onChange={this.onChangeProductURL}
                                 required
@@ -129,6 +131,7 @@ class AddProduct extends Component{
                             <input style={{ width: '90%', height : '40px'}} 
                                 id="price" 
                                 type="number" 
+                                min="0"
                                 name="thresholdPrice"
                                 placeholder="Enter product price" 
                                 value={this.state.thresholdPrice} 

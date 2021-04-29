@@ -81,6 +81,7 @@ class EditThreshold extends Component {
                         <input style={{ width: '90%', height : '40px'}} 
                             id="price" 
                             type="number" 
+                            min="0"
                             name="thresholdPrice"
                             placeholder={this.props.location.state.thresholdPrice} 
                             value={this.state.thresholdPrice} 

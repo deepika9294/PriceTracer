@@ -45,6 +45,7 @@ function Login () {
                         <label>Email address</label>
                         <input type="email" className="form-control" placeholder="Enter email"
                         name="email"
+                        // pattern=".{4,125}" title="Please enter email id with 4 to 125 characters"
                         onChange={e => setEmail(e.target.value)}
                         required
                         />
@@ -54,6 +55,7 @@ function Login () {
                         <label>Password</label>
                         <input type="password" className="form-control" placeholder="Enter password" 
                         name="password"
+                        // pattern=".{8,15}" title="Password should be 8 to 15 characters long "
                         onChange={e => setPassword(e.target.value)}
                         required
                         />
