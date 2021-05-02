@@ -3,55 +3,77 @@ import React, {Component} from "react";
 import {BACKEND} from '../config';
 import CartNavbar from './CartNavbar';
 import ProductCard from './ProductCard';
+// import {Redirect} from 'react-router-dom';
 
 class Home extends Component{
     constructor(props) {
         super(props)
     
         this.state = {
-            products : [{}],
+            products : [],
+            reload : false,
         }
     }
     
-    componentDidMount(){
-        var res_data_list;
+    onDeleteHandle = (dataFromChild) =>{
+        this.setState({
+            reload: dataFromChild,
+        })
+        window.location.reload();
         
+    }
+
+    onRecommendHandle = (dataFromChild) =>{
+        
+        this.props.history.push(`/products/getRecommendation?product_id=${dataFromChild}`); 
+    }
+
+    componentDidMount(){
         (async () =>{
-            console.log("in useffect");
-            // this should be fetched from localstorage after the jwt token setup
+            
             const user = {
-                email : 'akanksha@gmail.com',
-                name : 'akanksha',
+                email : localStorage.getItem('email'),
+                name : localStorage.getItem('name'),
             };
 
-            res_data_list = await axios
-            .post( BACKEND + '/products/getproducts', user)
-            .then(res => res.data.value)
-            .catch(err => console.log("failed to fetch products"));
-            
-            console.log(res_data_list);
-            
-            console.log("akanksha");
-            console.log(this.state.products);
+            console.log(user);
 
-            this.setState({
-                products : res_data_list,
+            await axios
+            .post( BACKEND + '/products/getproducts', user)
+            .then(res => {
+                const product_list = (res.data.value).map( (product , index) =>{
+                    return (<ProductCard product={product} onRecommendHandle={this.onRecommendHandle} onDeleteHandle = {this.onDeleteHandle} key={index}></ProductCard>)
+                })      
+                this.setState({
+                    products : product_list
+                })
             })
+            .catch(err => console.log("failed to fetch products"));
             
         })();  
     }
 
     render(){
-        return (
-            <div className="container">
+
+        
+        if(this.state.products && this.state.length !== 0){
+            return (
+                <div className="container">
                     <CartNavbar/>
-                    <div>
-                        {this.state.products.map(product => {
-                            return <ProductCard product={product}/>
-                        })}
-                    </div>
-            </div>
-        )
+                    {this.state.products} 
+                </div>
+            )
+        }
+        else{
+            return (
+                <div className="container">
+                    <CartNavbar/>
+                </div>
+            )
+        }
+        
+       
+        
     }
    
 }

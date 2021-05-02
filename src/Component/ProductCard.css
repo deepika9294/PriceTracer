@@ -2,16 +2,35 @@
     display: flex;
     flex: 1 1 auto;
 }
-
 .card{
     height : auto;
-    margin-top: 20px;
+    margin: 10px auto;
+    color: #4a2986;
+    font-size: large;
+    font-weight: 700;
+    overflow: hidden;
+    border-bottom-right-radius: 80px;
+    /* border-bottom-left-radius: 52px; */
+    border: #524eb4 solid 6px;
+    /* background-color: #4238caf8; */
+    margin: 10px auto;
+}
+.card-title{
+    color: orange;
+    text-align: center;
 }
 
 img{
-    height: 100%;
-    width: fit-content;
+    height: 340px;
+    margin: 12px 10px;
+    /* height: 400px;
+    width:  400px; */
+    max-width: 320px;
 }
+
 button{
     margin-left: 10px;
 }
+.rec{
+    text-align: center;
+} 

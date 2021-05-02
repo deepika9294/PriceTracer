@@ -2,11 +2,14 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
 const userSchema = new mongoose.Schema({
+    
     name : {
-
         type : String,
         required : true,
+        minlength : 3,
+
     },
+
     email : {
 
         type : String,
@@ -15,10 +18,13 @@ const userSchema = new mongoose.Schema({
         unique : true,
         required : true,
     },
+
     password : {
 
         type : String,
         required : true,
+        minlength : 8,
+
     },
     contactNo : {
 
@@ -26,13 +32,23 @@ const userSchema = new mongoose.Schema({
         maxlength : 10,
         minlength : 10,
         required : true,
+
+    },
+    userVerified : {
+        
+        type : Boolean,
+        default: false,
+        required : true,
+
     },
     mode : {
         type : String,
         default : "email",
         required : true,
     },
+
     Cart : [],
+
     modeVerified: {
         type : Boolean,
         default : false,

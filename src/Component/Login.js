@@ -1,114 +1,86 @@
-import React, { Component } from "react";
-import { Link, Redirect} from "react-router-dom";
-import { Button } from "reactstrap";
+import React, { useState, useContext } from 'react';
+import { useHistory } from "react-router-dom";
 import axios from "axios";
+import UserContext from "../context/userContext";
 import { BACKEND } from "../config";
+import { Link} from "react-router-dom";
+import { Button } from "reactstrap";
 import './Landing.css';
+import ErrorMsg from "./ErrorMsg";
 
 
-export default class Login extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            email: "",
-            password: "",
-            nameError: "",
-            passwordError: "",
-            loginError: false,
-            isLoggedIn: false,
-            errorMessage: false
-        }
-    }
+function Login () {
+    const [email, setEmail] = useState();
+    const [password, setPassword] = useState();
+    const [error, setError] = useState();
 
-    changeHandler = e => {
-        this.setState({
-            [e.target.name]: e.target.value
-        })
-    }
+    const { setIsUserValid } = useContext(UserContext);
+    const history = useHistory();
 
-    onSubmit = async (e) => {
+    const submit = async (e) => {
         e.preventDefault();
-        const user = {
-            email: this.state.email,
-            password: this.state.password
+        try{
+            const loginUser = {email, password};
+            const loginResponse = await axios.post(BACKEND + "/users/login", loginUser);
+            setIsUserValid(true);
+            localStorage.setItem("auth-token", loginResponse.data.token);
+            localStorage.setItem("name", loginResponse.data.user.name);
+            localStorage.setItem("email", loginResponse.data.user.email);
+            localStorage.setItem("id", loginResponse.data.user.id);
+            history.push("/home");
+        } catch(err) {
+            err.response.data.msg && setError(err.response.data.msg)
         }
-        const status = await axios
-        .post(BACKEND + '/users/login', user)
-		.then(res => res.status)
-        .catch(err => console.log(err));
+        
+    };
 
-        if(status !== 200) {
-            this.setState({
-                isLoggedIn: false,
-                errorMessage: true
-            })
-        }
-        else {
-            this.setState({
-                isLoggedIn: true,
-                errorMessage: false
-            })
-        }
+    return (
+        <div className="auth-wrapper">
+            <div className="auth-inner">
+                <form onSubmit={submit}>
+                    <h3>Sign In</h3>    
+                    {error && <ErrorMsg message={error} clearError={() => setError(undefined)} />}
 
-       
-    }
-    
+                    <div className="form-group">
+                        <label>Email address</label>
+                        <input type="email" className="form-control" placeholder="Enter email"
+                        name="email"
+                        // pattern=".{4,125}" title="Please enter email id with 4 to 125 characters"
+                        onChange={e => setEmail(e.target.value)}
+                        required
+                        />
+                    </div>
 
-    render() {
-        if( this.state.isLoggedIn) {
-             return <Redirect to="/home"/>;
-        }
-        const error = this.state.errorMessage;
-        if(error) {
-            return(<h2>Wrong credentials</h2>)  //may display an error page
-        }
+                    <div className="form-group">
+                        <label>Password</label>
+                        <input type="password" className="form-control" placeholder="Enter password" 
+                        name="password"
+                        // pattern=".{8,15}" title="Password should be 8 to 15 characters long "
+                        onChange={e => setPassword(e.target.value)}
+                        required
+                        />
+                    </div>
 
-        return (
-            <div className="auth-wrapper">
-                <div className="auth-inner">
-                    <form onSubmit={this.onSubmit}>
-                        <h3>Sign In</h3>    
-
-                        <div className="form-group">
-                            <label>Email address</label>
-                            <input type="email" className="form-control" placeholder="Enter email"
-                            name="email"
-                            value={this.state.email}
-                            onChange={this.changeHandler}
-                            required
-                            />
+                    <div className="form-group">
+                        <div className="custom-control custom-checkbox">
+                            {/* <input type="checkbox" className="custom-control-input" id="customCheck1" />
+                            <label className="custom-control-label" htmlFor="customCheck1">Remember me</label> */}
                         </div>
+                    </div>
 
-                        <div className="form-group">
-                            <label>Password</label>
-                            <input type="password" className="form-control" placeholder="Enter password" 
-                            name="password"
-                            value={this.state.password}
-                            onChange={this.changeHandler}
-
-                            required
-                            />
-                        </div>
-
-                        <div className="form-group">
-                            <div className="custom-control custom-checkbox">
-                                <input type="checkbox" className="custom-control-input" id="customCheck1" />
-                                <label className="custom-control-label" htmlFor="customCheck1">Remember me</label>
-                            </div>
-                        </div>
-
-                        <button type="submit" className="btn btn-primary btn-block">Submit</button>
-                        <p className="forgot-password text-right">
-                            <Link to="/">
-                                <Button color="link">
-                                <span>Forgot Password?</span>
-                                </Button>
-                            </Link>
-                        </p>
-                    </form>
-                </div>
+                    <button type="submit" className="btn btn-primary btn-block">Submit</button>
+                    {/* <p className="forgot-password text-right">
+                        <Link to="/">
+                            <Button color="link">
+                            <span>Forgot Password?</span>
+                            </Button>
+                        </Link>
+                    </p> */}
+                </form>
             </div>
-           
-        );
-    }
+        </div>
+        
+    );
 }
+ 
+export default Login;
