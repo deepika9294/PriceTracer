@@ -8,6 +8,7 @@
 .VSCodeCounter/
 /backend/.env
 
+
 # testing
 /coverage
 
