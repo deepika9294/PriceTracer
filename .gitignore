@@ -5,6 +5,8 @@
 /backend/node_modules
 /.pnp
 .pnp.js
+.VSCodeCounter/
+/backend/.env
 
 # testing
 /coverage
